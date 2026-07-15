@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="G-Garage - демонстрационная главная страница интернет-магазина автозапчастей">
+  <title>G-Garage - автозапчасти</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <div class="topbar__left">
+        <span>⌖ Москва и МО</span>
+        <span>◷ Ежедневно 09:00 - 19:00</span>
+        <span>▣ Доставка по всей России</span>
+      </div>
+      <a class="topbar__phone" href="tel:+79069033231">☎ 8 906 903-32-31</a>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header__inner">
+      <a class="logo" href="#" aria-label="G-Garage">
+        <img src="assets/logo/g-garage-logo.png" alt="G-Garage">
+        <span>
+          <strong>G-Garage</strong>
+          <small>запчасти с характером</small>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#catalog">Каталог</a>
+        <a href="#search">Подбор по авто</a>
+        <a href="#search">VIN-запрос</a>
+        <a href="#brands">Бренды</a>
+        <a href="#promo">Акции</a>
+        <a href="#service">Сервис</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+
+      <div class="header-actions" aria-label="Действия">
+        <a href="#" class="header-action" aria-label="Избранное">
+          <span>♡</span>
+          <small>Избранное</small>
+        </a>
+        <a href="#" class="header-action" aria-label="Войти">
+          <span>♙</span>
+          <small>Войти</small>
+        </a>
+        <a href="#" class="header-action header-action--cart" aria-label="Корзина">
+          <span>▱</span>
+          <small>Корзина</small>
+          <b>3</b>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="search">
+      <div class="container hero__frame">
+        <div class="hero__content">
+          <p class="eyebrow">Интернет-магазин автозапчастей</p>
+          <h1>Точность подбора.<br><span>Скорость доставки.</span></h1>
+          <p class="hero__lead">Оригинальные и аналоговые запчасти для иномарок. Подбор по VIN с проверкой совместимости с вашим авто.</p>
+
+          <div class="hero__trust">
+            <span>▱ Проверка совместимости</span>
+            <span>◴ Поддержка экспертов</span>
+          </div>
+
+          <form class="search-card" action="#" method="get">
+            <div class="search-tabs" role="tablist" aria-label="Варианты поиска">
+              <button class="search-tab is-active" type="button" data-placeholder="Введите VIN-номер автомобиля">По VIN</button>
+              <button class="search-tab" type="button" data-placeholder="Введите номер детали">По номеру детали</button>
+              <button class="search-tab" type="button" data-placeholder="Введите марку и модель">По марке и модели</button>
+            </div>
+            <div class="search-row">
+              <label class="sr-only" for="part-search">Поиск запчастей</label>
+              <input id="part-search" name="q" type="search" placeholder="Введите VIN-номер автомобиля">
+              <button type="submit">Подобрать</button>
+            </div>
+            <p class="search-note">Мы проверим совместимость запчастей с вашим авто</p>
+          </form>
+        </div>
+
+        <div class="hero__benefits">
+          <article><b>⌁</b><span>Быстрый подбор<br>по VIN</span></article>
+          <article><b>▱</b><span>Проверка<br>качества</span></article>
+          <article><b>▰</b><span>Быстрая<br>доставка</span></article>
+          <article><b>◴</b><span>Экспертная<br>поддержка</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="catalog">
+      <div class="container">
+        <div class="section-title">
+          <h2>Каталог запчастей</h2>
+          <a href="#">Смотреть все категории →</a>
+        </div>
+        <div class="category-grid">
+          <a class="category-card" href="#"><img src="assets/categories/engine.png" alt=""><strong>Двигатель</strong><span>→</span></a>
+          <a class="category-card" href="#"><img src="assets/categories/brakes.png" alt=""><strong>Тормозная система</strong><span>→</span></a>
+          <a class="category-card" href="#"><img src="assets/categories/suspension.png" alt=""><strong>Подвеска и рулевое</strong><span>→</span></a>
+          <a class="category-card" href="#"><img src="assets/categories/oils.png" alt=""><strong>Масла и жидкости</strong><span>→</span></a>
+          <a class="category-card" href="#"><img src="assets/categories/filters.png" alt=""><strong>Фильтры</strong><span>→</span></a>
+          <a class="category-card" href="#"><img src="assets/categories/electrics.png" alt=""><strong>Электрика</strong><span>→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="brands">
+      <div class="container">
+        <div class="section-title">
+          <h2>Проверенные бренды</h2>
+          <a href="#">Смотреть все →</a>
+        </div>
+        <div class="brand-grid">
+          <span class="brand brand--red">BOSCH</span>
+          <span class="brand">MANN<br>FILTER</span>
+          <span class="brand brand--blue">ZF</span>
+          <span class="brand">TRW</span>
+          <span class="brand">DENSO</span>
+          <span class="brand">NGK</span>
+          <span class="brand">SACHS</span>
+          <span class="brand">Valeo</span>
+          <span class="brand">MEYLE</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Популярные товары</h2>
+          <a href="#">Смотреть все товары →</a>
+        </div>
+        <div class="product-grid">
+          <article class="product-card">
+            <button type="button" aria-label="В избранное">♡</button>
+            <img src="assets/products/oil-shell-helix.png" alt="">
+            <h3>Моторное масло Shell Helix Ultra 5W-30 4L</h3>
+            <p class="stock">● В наличии</p>
+            <div><strong>3 950 ₽</strong><a href="#" aria-label="В корзину">▱</a></div>
+          </article>
+          <article class="product-card">
+            <button type="button" aria-label="В избранное">♡</button>
+            <img src="assets/products/brake-discs-brembo.png" alt="">
+            <h3>Тормозные диски Brembo 09.A123.34</h3>
+            <p class="stock">● В наличии</p>
+            <div><strong>6 850 ₽</strong><a href="#" aria-label="В корзину">▱</a></div>
+          </article>
+          <article class="product-card">
+            <button type="button" aria-label="В избранное">♡</button>
+            <img src="assets/products/spark-plugs-ngk.png" alt="">
+            <h3>Свечи зажигания NGK 1578 LZKR6B-10E</h3>
+            <p class="stock">● В наличии</p>
+            <div><strong>1 250 ₽</strong><a href="#" aria-label="В корзину">▱</a></div>
+          </article>
+          <article class="product-card">
+            <button type="button" aria-label="В избранное">♡</button>
+            <img src="assets/products/air-filter-mann.png" alt="">
+            <h3>Воздушный фильтр MANN-FILTER C 27 114</h3>
+            <p class="stock stock--low">● Осталось 3 шт.</p>
+            <div><strong>980 ₽</strong><a href="#" aria-label="В корзину">▱</a></div>
+          </article>
+          <article class="product-card">
+            <button type="button" aria-label="В избранное">♡</button>
+            <img src="assets/products/shock-absorber-sachs.png" alt="">
+            <h3>Амортизатор SACHS 315 475</h3>
+            <p class="stock">● В наличии</p>
+            <div><strong>4 450 ₽</strong><a href="#" aria-label="В корзину">▱</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="promo" id="promo">
+      <div class="container">
+        <a class="promo-card" href="#" aria-label="Скидки на тормозную систему">
+          <img src="assets/promo/brake-discount.png" alt="Готовьтесь к сезону тормозите уверенно">
+        </a>
+      </div>
+    </section>
+
+    <section class="service" id="service">
+      <div class="container service-grid">
+        <article><b>▰</b><span>Доставка по всей России</span></article>
+        <article><b>↩</b><span>Лёгкий возврат</span></article>
+        <article><b>▭</b><span>Оплата при получении или онлайн</span></article>
+        <article><b>▱</b><span>Проверенные поставщики</span></article>
+        <article><b>◇</b><span>Бонусы и скидки клиентам</span></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contacts">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <img src="assets/logo/g-garage-logo.png" alt="">
+        <strong>G-Garage</strong>
+        <span>запчасти с характером</span>
+        <div class="socials" aria-label="Социальные сети">
+          <a href="#">vk</a>
+          <a href="#">tg</a>
+          <a href="#">wa</a>
+        </div>
+      </div>
+      <nav class="footer__col" aria-label="Каталог">
+        <h3>Каталог</h3>
+        <a href="#">Двигатель</a>
+        <a href="#">Тормозная система</a>
+        <a href="#">Подвеска и рулевое</a>
+        <a href="#">Масла и жидкости</a>
+        <a href="#">Фильтры</a>
+      </nav>
+      <nav class="footer__col" aria-label="Покупателям">
+        <h3>Покупателям</h3>
+        <a href="#">Подбор по авто</a>
+        <a href="#">VIN-запрос</a>
+        <a href="#">Оплата и доставка</a>
+        <a href="#">Возврат</a>
+      </nav>
+      <nav class="footer__col" aria-label="Компания">
+        <h3>Компания</h3>
+        <a href="#">О нас</a>
+        <a href="#">Новости</a>
+        <a href="#">Сервис</a>
+        <a href="#">Партнёрам</a>
+      </nav>
+      <div class="footer__col">
+        <h3>Контакты</h3>
+        <a href="tel:+79069033231">8 906 903-32-31</a>
+        <p>Бердникова Ирина</p>
+        <a href="#">Обратная связь</a>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <span>© G-Garage. Все права защищены.</span>
+      <span>Политика конфиденциальности · Пользовательское соглашение</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
