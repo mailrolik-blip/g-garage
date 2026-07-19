@@ -580,6 +580,90 @@
   .account-links {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .manager-layout .responsive-frame,
+  .manager-layout .responsive-screen {
+    max-width: 1560px;
+  }
+
+  .manager-workspace {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .manager-sidebar {
+    display: grid !important;
+    gap: 8px;
+    align-content: start;
+    position: sticky;
+    top: 174px;
+    min-height: 560px;
+  }
+
+  .manager-sidebar b {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .manager-sidebar button {
+    min-height: 42px;
+    border: 0;
+    border-radius: var(--radius);
+    background: transparent;
+    text-align: left;
+    padding: 0 10px;
+    font-weight: 700;
+  }
+
+  .manager-sidebar button:hover,
+  .manager-sidebar button:focus-visible {
+    background: #fff5f6;
+    color: var(--red);
+  }
+
+  .manager-topbar {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .manager-topbar p {
+    margin: 4px 0 0;
+  }
+
+  .manager-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  .manager-metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-bottom: 14px;
+  }
+
+  .manager-chat {
+    height: 190px;
+    margin: 12px 0;
+  }
+
+  .manager-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 12px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .manager-workspace {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+
+  .manager-columns {
+    grid-template-columns: minmax(0, 1.15fr) minmax(430px, .85fr);
+  }
 }
 
 @media (min-width: 1400px) {
