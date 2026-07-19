@@ -12,3 +12,5 @@ screenshots/*
 !screenshots/fixed-icons-desktop-1440.png
 !screenshots/prototype/
 !screenshots/prototype/*.png
+!screenshots/responsive/
+!screenshots/responsive/*.png
