@@ -1,0 +1,1090 @@
+{
+  "summary": {
+    "KEEP": 31,
+    "MERGE": 62,
+    "REWORK": 21,
+    "LATER": 32,
+    "DELETE": 8
+  },
+  "recommendedMvpScreens": 50,
+  "routes": {
+    "home": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "menu": {
+      "decision": "KEEP",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "search": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "search-suggestions": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "search-history": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "city": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "contacts-quick": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "garage": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "vehicle-brand": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "vehicle-model": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "vehicle-year": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "vehicle-engine": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "vehicle-confirm": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vehicle-profile": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "vehicle-categories": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "vehicle-edit": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vehicle-delete": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vin": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "vin-upload": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vin-preview": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vin-photo-error": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vin-sent": {
+      "decision": "MERGE",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vin-status": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "vin-need-data": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vin-answer": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vin-ready": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "vin-selection": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "vin-compare": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "vin-pick-product": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "vin-closed": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "categories": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "subcategory": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "catalog": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "filters": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "sort": {
+      "decision": "MERGE",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "compatibility": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "brands": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "brand": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "article-search": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "search-results": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "analogs": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "recent": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "empty-results": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "out-of-stock": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "catalog-error": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "promos": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "promo": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "product": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "product-fit-ok": {
+      "decision": "MERGE",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "product-fit-unknown": {
+      "decision": "MERGE",
+      "priority": "P0",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "product-fit-bad": {
+      "decision": "MERGE",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "product-no-car": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "gallery": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "specs": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "plain-description": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "availability": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "supplier": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "warranty": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "compare-analogs": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "related": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "product-question": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "added-cart": {
+      "decision": "DELETE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Duplicate or low-value state for the first release",
+      "fix": "Do not implement as a separate route"
+    },
+    "added-favorite": {
+      "decision": "DELETE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Duplicate or low-value state for the first release",
+      "fix": "Do not implement as a separate route"
+    },
+    "cart": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "cart-empty": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "cart-qty": {
+      "decision": "DELETE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Duplicate or low-value state for the first release",
+      "fix": "Do not implement as a separate route"
+    },
+    "cart-delete": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "cart-out": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "cart-price-changed": {
+      "decision": "MERGE",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "cart-delivery-changed": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "cart-analog": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "promo-code": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "promo-applied": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "promo-error": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "checkout-contact": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "checkout-delivery": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "pickup": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "pickup-map": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "courier-address": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "transport-company": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "delivery-time": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "payment": {
+      "decision": "MERGE",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "order-comment": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "checkout-review": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "terms": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "payment-processing": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "payment-success": {
+      "decision": "MERGE",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "payment-error": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "payment-change": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "order-success": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "order-status": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "order-detail": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "tracking": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "order-confirm-required": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "order-cancelled": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "cancel-request": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "repeat-order": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "order-contact": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "documents": {
+      "decision": "DELETE",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Duplicate or low-value state for the first release",
+      "fix": "Do not implement as a separate route"
+    },
+    "login": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "code": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "code-error": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "account": {
+      "decision": "REWORK",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "account-orders": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "account-order": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "account-repeat": {
+      "decision": "DELETE",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Duplicate or low-value state for the first release",
+      "fix": "Do not implement as a separate route"
+    },
+    "account-cars": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "account-car": {
+      "decision": "DELETE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Duplicate or low-value state for the first release",
+      "fix": "Do not implement as a separate route"
+    },
+    "account-vin": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "account-vin-detail": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "favorites": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "addresses": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "address-add": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "notifications": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "notification-settings": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "profile": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "profile-edit": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "logout": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "delete-account": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "delivery-info": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "returns": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "about": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "contacts": {
+      "decision": "KEEP",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "faq": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "support": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "support-chat": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "callback": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "privacy": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "terms-page": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "personal-data": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "404": {
+      "decision": "KEEP",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "offline": {
+      "decision": "REWORK",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "server-error": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "maintenance": {
+      "decision": "DELETE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Duplicate or low-value state for the first release",
+      "fix": "Do not implement as a separate route"
+    },
+    "manager": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "manager-dashboard": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "manager-vin-queue": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "manager-vin-filters": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "manager-vin-detail": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": true,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "manager-request-data": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "manager-product-search": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": false,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "manager-add-product": {
+      "decision": "MERGE",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "manager-compare": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "manager-comment": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "manager-preview": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": false,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "manager-send": {
+      "decision": "MERGE",
+      "priority": "P0",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "manager-orders": {
+      "decision": "KEEP",
+      "priority": "P0",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    },
+    "manager-order-detail": {
+      "decision": "REWORK",
+      "priority": "P0",
+      "mvp": false,
+      "problem": "Needed for launch, but proof, copy, hierarchy or next action is weak",
+      "fix": "Clarify primary CTA, add proof, preserve context and reduce secondary actions"
+    },
+    "manager-order-status": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "manager-contact": {
+      "decision": "MERGE",
+      "priority": "P1",
+      "mvp": false,
+      "problem": "Can be handled inside a parent screen, modal or bottom sheet",
+      "fix": "Merge with parent route and keep as component state"
+    },
+    "manager-catalog": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "manager-promos": {
+      "decision": "LATER",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Useful after first live traffic, not required to validate MVP",
+      "fix": "Move to version 1.1 or later backlog"
+    },
+    "manager-settings": {
+      "decision": "DELETE",
+      "priority": "P2",
+      "mvp": false,
+      "problem": "Duplicate or low-value state for the first release",
+      "fix": "Do not implement as a separate route"
+    },
+    "map": {
+      "decision": "KEEP",
+      "priority": "P3",
+      "mvp": false,
+      "problem": "No blocking issue found",
+      "fix": "Keep in MVP flow and validate copy during owner review"
+    }
+  }
+}

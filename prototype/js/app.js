@@ -5,6 +5,15 @@
   const app = document.querySelector("#app");
 
   const routeMap = new Map(screens.map((screen) => [screen.route, screen]));
+  let reviewDefaults = null;
+
+  fetch("data/review-defaults.json")
+    .then((response) => response.ok ? response.json() : null)
+    .then((data) => {
+      reviewDefaults = data;
+      if (Router.current() === "/review") render();
+    })
+    .catch(() => {});
 
   function money(value) {
     return `${value.toLocaleString("ru-RU")} ₽`;
@@ -312,6 +321,8 @@
 
   function reviewMeta(screen) {
     const route = screen.route;
+    const defaultItem = reviewDefaults?.routes?.[route];
+    if (defaultItem) return defaultItem;
     let decision = "KEEP";
     if (deleteRoutes.has(route)) decision = "DELETE";
     else if (reworkRoutes.has(route)) decision = "REWORK";
@@ -359,7 +370,7 @@
     const types = [...new Set(screens.map((screen) => screen.type))];
     const counts = reviewCounts();
     return `
-      <section class="review-shell">
+      <section class="review-shell review-view-mobile">
         <div class="review-toolbar">
           <div>
             <h1>UX review</h1>
@@ -384,12 +395,18 @@
             <label class="field"><span>Audience</span><select id="review-audience"><option value="">All</option><option value="client">Client</option><option value="manager">Manager</option></select></label>
           </div>
           <div class="chip-row">
+            <button class="chip active" data-review-view="mobile">Mobile</button>
+            <button class="chip" data-review-view="tablet">Tablet</button>
+            <button class="chip" data-review-view="desktop">Desktop</button>
+            <button class="chip" data-review-view="side">Side-by-side</button>
             <button class="chip" data-review-toggle="problem">Only problematic</button>
             <button class="chip" data-review-toggle="mvp">Only MVP</button>
             <button class="chip" data-review-toggle="unseen">Only unreviewed</button>
             <button class="chip" data-review-next>Open next unreviewed</button>
             <button class="chip" data-review-export>Export JSON</button>
             <button class="chip" data-review-import>Import JSON</button>
+            <button class="chip" data-review-restore>Restore Codex defaults</button>
+            <button class="chip" data-review-clear-user>Clear user decisions</button>
             <button class="chip" data-review-reset>Reset decisions</button>
           </div>
           <textarea id="review-json" class="review-json" placeholder="Exported or imported JSON"></textarea>
@@ -404,9 +421,13 @@
     return list.map((screen) => {
       const meta = reviewDecision(screen);
       const thumb = `review-thumbnails/${String(screen.number).padStart(3, "0")}-${screen.route.replace(/[^a-z0-9-]/gi, "-")}.png`;
+      const desktopThumb = `review-thumbnails-desktop/${String(screen.number).padStart(3, "0")}-${screen.route.replace(/[^a-z0-9-]/gi, "-")}.png`;
       return `
         <article class="card review-card" data-review-card="${screen.route}" data-module="${screen.module}" data-type="${screen.type}" data-priority="${meta.priority}" data-status="${meta.decision}" data-mvp="${meta.mvp}">
-          <img class="review-thumb" src="${thumb}" alt="">
+          <div class="review-media">
+            <figure><figcaption>Mobile</figcaption><img class="review-thumb review-thumb-mobile" src="${thumb}" alt=""></figure>
+            ${meta.mvp ? `<figure class="desktop-review-figure"><figcaption>Desktop</figcaption><img class="review-thumb review-thumb-desktop" src="${desktopThumb}" alt=""></figure>` : ""}
+          </div>
           <div class="review-card-body">
             <div class="row between">
               <b>${screen.number}. ${screen.title}</b>
@@ -415,6 +436,7 @@
             <p class="small muted">#/${screen.route} - ${screen.module} - ${screen.type} - ${meta.priority}</p>
             <p class="small"><b>Issue:</b> ${meta.problem}</p>
             <p class="small"><b>Fix:</b> ${meta.fix}</p>
+            <p class="small review-diff"><b>Responsive delta:</b> desktop should add space, filters, sticky summary or manager workspace without changing the route or losing mobile context.</p>
             <div class="review-actions">
               <button class="btn secondary" data-go="/${screen.route}">Open screen</button>
               <a class="btn secondary" href="#/${screen.route}" target="_blank" rel="noreferrer">Open beside</a>
@@ -820,6 +842,22 @@
       } catch (_) {
         Store.toast("Invalid JSON");
       }
+    });
+    document.querySelectorAll("[data-review-view]").forEach((node) => node.addEventListener("click", () => {
+      const shell = document.querySelector(".review-shell");
+      document.querySelectorAll("[data-review-view]").forEach((item) => item.classList.toggle("active", item === node));
+      shell?.classList.remove("review-view-mobile", "review-view-tablet", "review-view-desktop", "review-view-side");
+      shell?.classList.add(`review-view-${node.dataset.reviewView}`);
+    }));
+    document.querySelector("[data-review-restore]")?.addEventListener("click", () => {
+      localStorage.removeItem("gg-review-decisions");
+      Store.toast("Codex defaults restored");
+      render();
+    });
+    document.querySelector("[data-review-clear-user]")?.addEventListener("click", () => {
+      localStorage.removeItem("gg-review-decisions");
+      Store.toast("User review decisions cleared");
+      render();
     });
     document.querySelector("[data-review-reset]")?.addEventListener("click", () => {
       localStorage.removeItem("gg-review-decisions");

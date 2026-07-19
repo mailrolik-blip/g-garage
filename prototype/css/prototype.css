@@ -230,6 +230,27 @@
   background: #fff;
 }
 
+.review-media {
+  display: grid;
+  gap: 10px;
+}
+
+.review-media figure {
+  margin: 0;
+}
+
+.review-media figcaption {
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.desktop-review-figure {
+  display: none;
+}
+
 .review-card-body,
 .review-edit,
 .review-actions {
@@ -295,6 +316,28 @@
 
   .review-card {
     grid-template-columns: 168px 1fr;
+  }
+
+  .review-view-desktop .desktop-review-figure,
+  .review-view-side .desktop-review-figure {
+    display: block;
+  }
+
+  .review-view-desktop .review-media figure:first-child {
+    display: none;
+  }
+
+  .review-view-tablet .review-thumb {
+    max-height: 310px;
+  }
+
+  .review-view-side .review-card {
+    grid-template-columns: 460px 1fr;
+  }
+
+  .review-view-side .review-media {
+    grid-template-columns: 150px 290px;
+    align-items: start;
   }
 
   .review-thumb {
