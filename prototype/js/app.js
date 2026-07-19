@@ -24,7 +24,8 @@
     const route = Router.current().replace(/^\//, "");
     const isManager = route.startsWith("manager");
     const isReview = route === "review";
-    app.className = `app-shell ${isManager ? "manager-layout" : ""} ${isReview ? "review-layout" : ""}`;
+    const routeClass = `route-${route.split("/")[0] || "home"}`;
+    app.className = `app-shell ${routeClass} ${isManager ? "manager-layout" : ""} ${isReview ? "review-layout" : ""}`;
     app.innerHTML = `
       <div class="phone-frame responsive-frame">
         ${desktopHeader(route)}
@@ -125,8 +126,77 @@
     `;
   }
 
+  function filtersSidebar() {
+    const filters = ["Совместимость", "Бренд", "Цена", "Наличие", "Срок доставки", "Оригинал / аналог", "Качество", "Рейтинг", "Поставщик"];
+    return `<aside class="filters-sidebar desktop-only">
+      <div class="row between"><b>Фильтры</b><button class="btn ghost" data-go="/catalog">Сбросить</button></div>
+      <p class="small muted">Найдено ${products.length} товаров для ${selectedCar().brand} ${selectedCar().model}</p>
+      ${filters.map((item, index) => `<label class="field"><span>${item}</span><select><option>${index < 2 ? "Выбрано" : "Любое"}</option><option>Только подходящие</option><option>В наличии</option></select></label>`).join("")}
+      <button class="btn full" data-go="/catalog">Показать товары</button>
+    </aside>`;
+  }
+
+  function desktopCatalogHeader() {
+    return `<div class="desktop-catalog-head desktop-only">
+      <div><p class="small muted">Главная / Каталог / ${selectedCar().brand} ${selectedCar().model}</p><h1>Каталог совместимых товаров</h1></div>
+      <div class="desktop-applied">
+        <span class="status ok">${selectedCar().brand} ${selectedCar().model}</span>
+        <span class="status">25 товаров</span>
+        <button class="chip" data-go="/vin">Передать подбор менеджеру</button>
+      </div>
+    </div>`;
+  }
+
+  function desktopProduct(product) {
+    return `<div class="desktop-product">
+      <section class="card pad product-gallery">
+        <img src="${product.image}" alt="">
+        <div class="product-thumbs">${[product, products[1], products[2]].map((item) => `<button><img src="${item.image}" alt=""></button>`).join("")}</div>
+      </section>
+      <section class="card pad product-info">
+        <span class="status ${statusClass(product.compatibility)}">${product.compatibility}</span>
+        <p class="small muted">${product.brand} · ${product.article}</p>
+        <h1>${product.title}</h1>
+        <p>Проверяется для ${selectedCar().brand} ${selectedCar().model} ${selectedCar().year}. Показываем срок, наличие и альтернативы до оформления.</p>
+        <div class="grid two">
+          <div><b>Характеристики</b><p class="small muted">Качество: ${product.quality}. Рейтинг: ${product.rating.toFixed(1)}.</p></div>
+          <div><b>Гарантия</b><p class="small muted">12 месяцев, возврат при ошибке подбора.</p></div>
+        </div>
+        ${compareTable()}
+      </section>
+      <aside class="sticky-summary product-buy">
+        <span class="price">${money(product.price)}</span>
+        ${product.oldPrice ? `<span class="old-price">${money(product.oldPrice)}</span>` : ""}
+        <p><b>${product.stock}</b><br><span class="small muted">Получение: ${product.delivery}</span></p>
+        <label class="field"><span>Количество</span><select><option>1</option><option>2</option><option>3</option></select></label>
+        <button class="btn full" data-add="${product.id}">В корзину</button>
+        <button class="btn secondary full" data-go="/vin">Проверить по VIN</button>
+        <button class="btn ghost full" data-go="/product-question">Помощь менеджера</button>
+      </aside>
+    </div>`;
+  }
+
   function home() {
     return `
+      <section class="desktop-home-hero desktop-only">
+        <div>
+          <span class="status ok">Проверка совместимости перед покупкой</span>
+          <h1>Автозапчасти с понятным сроком и подбором по VIN</h1>
+          <p>Ищите по артикулу, автомобилю или передайте сложный выбор менеджеру. Цена, наличие и совместимость видны до корзины.</p>
+          <div class="desktop-hero-search" data-go="/search">${icon.search}<span>Введите артикул, VIN или название детали</span><button class="btn">Найти</button></div>
+          <div class="desktop-pick-modes">
+            <button class="card pad" data-go="/article-search"><b>По артикулу</b><span>Точное совпадение и аналоги</span></button>
+            <button class="card pad" data-go="/vin"><b>По VIN</b><span>Менеджер проверит применимость</span></button>
+            <button class="card pad" data-go="/garage"><b>По автомобилю</b><span>${selectedCar().brand} ${selectedCar().model}</span></button>
+          </div>
+        </div>
+        <aside class="card pad desktop-car-panel">
+          <img src="../../assets/hero/main-hero.png" alt="">
+          <h2>${selectedCar().brand} ${selectedCar().model}</h2>
+          <p class="muted">${selectedCar().year} · ${selectedCar().engine}</p>
+          <button class="btn full" data-go="/vehicle-categories">Открыть совместимый каталог</button>
+        </aside>
+      </section>
       <section class="card hero-card">
         <span class="status ok">Совместимость включена</span>
         <h1>Точность подбора. <span>Скорость доставки.</span></h1>
@@ -407,7 +477,7 @@
       "vehicle-delete": ["Удаление автомобиля", `<div class="card pad error">${icon.warning}<h2>Удалить автомобиль?</h2><p>История заказов сохранится.</p>${button("/garage", "Оставить автомобиль", "full")}</div>`]
     };
     const [heading, body] = steps[route] || steps.garage;
-    return title(heading) + body;
+    return title(heading) + `<div class="vehicle-responsive sidebar-layout"><aside class="card pad desktop-only flow-sidebar"><b>Подбор по автомобилю</b>${timeline(["Марка", "Модель", "Год", "Двигатель", "Совместимый каталог"])}<p class="small muted">Текущий выбор сохраняется в контексте и может быть передан менеджеру.</p></aside><section>${body}</section></div>`;
   }
 
   function carCard(car) {
@@ -434,7 +504,7 @@
       "vin-pick-product": productCard(products[1]) + button("/cart", "Добавить и перейти в корзину", "full"),
       "vin-closed": stateBlock("VIN-заявка закрыта", "По заявке создан заказ. История доступна в личном кабинете.", "/account-vin-detail")
     };
-    return title(routeMap.get(route)?.title || "VIN-подбор") + (generic[route] || generic.vin);
+    return title(routeMap.get(route)?.title || "VIN-подбор") + `<div class="vin-responsive desktop-split"><section>${generic[route] || generic.vin}</section><aside class="card pad desktop-only vin-help"><b>Что проверит менеджер</b><p>VIN, модификацию, срок поставки, аналоги и риск несовместимости.</p><div class="skeleton doc-preview"></div><p class="small muted">Можно загрузить СТС или описать проблему текстом. После отправки будет номер заявки и SLA.</p>${timeline(["Заявка", "Проверка", "Подборка", "Заказ"])}</aside></div>`;
   }
 
   function vinCard(req) {
@@ -452,7 +522,7 @@
     if (route === "promos") return title("Акции") + `<div class="grid">${promos.map((p) => `<article class="card pad"><b>${p.title}</b><p class="muted">${p.discount}</p>${button("/promo", "Открыть")}</article>`).join("")}</div>`;
     if (route === "brand") return title("BOSCH", "Страница бренда: рейтинг, сроки, категории.") + `<div class="grid">${products.filter((p) => p.brand === "BOSCH").map(productCard).join("")}</div>`;
     if (route === "analogs" || route === "recent" || route === "search-results" || route === "article-search" || route === "subcategory" || route === "promo" || route === "compatibility") return searchScreen(routeMap.get(route).title);
-    return title("Каталог товаров") + `<div class="chip-row"><button class="chip" data-go="/filters">Фильтры</button><button class="chip" data-go="/sort">Сортировка</button><button class="chip active">Совместимые</button></div><div class="grid">${products.slice(0, 10).map(productCard).join("")}</div>`;
+    return title("Каталог товаров") + desktopCatalogHeader() + `<div class="chip-row mobile-filter-row"><button class="chip" data-go="/filters">Фильтры</button><button class="chip" data-go="/sort">Сортировка</button><button class="chip active">Совместимые</button></div><div class="sidebar-layout catalog-layout">${filtersSidebar()}<section><div class="desktop-sort-row desktop-only"><span>${products.length} позиций</span><button class="chip" data-go="/sort">Сначала совместимые</button><button class="chip" data-go="/vin">Быстрый VIN-запрос</button></div><div class="grid catalog-grid">${products.slice(0, 12).map(productCard).join("")}</div><button class="btn secondary full show-more">Показать ещё</button></section></div>`;
   }
 
   function productFlow(route, id) {
@@ -473,6 +543,7 @@
     if (route === "added-favorite") return stateBlock("Добавлено в избранное", "Избранное доступно в кабинете.", "/favorites");
     return `
       ${title(product.brand)}
+      ${desktopProduct(product)}
       <div class="card pad">
         <img src="${product.image}" alt="" style="width:100%;height:190px;object-fit:contain">
         <span class="status ${statusClass(product.compatibility)}">${product.compatibility}</span>

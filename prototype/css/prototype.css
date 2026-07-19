@@ -126,6 +126,14 @@
   display: none;
 }
 
+.desktop-only {
+  display: none !important;
+}
+
+.desktop-product {
+  display: none;
+}
+
 .hidden {
   display: none !important;
 }
@@ -295,5 +303,205 @@
 
   .review-edit {
     grid-template-columns: 160px 160px 1fr 1fr;
+  }
+}
+
+@media (min-width: 1100px) {
+  .desktop-only {
+    display: revert !important;
+  }
+
+  .route-home .hero-card {
+    display: none;
+  }
+
+  .desktop-home-hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.25fr) 420px;
+    gap: 18px;
+    min-height: 420px;
+    align-items: stretch;
+    margin-bottom: 24px;
+  }
+
+  .desktop-home-hero > div {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 34px;
+    background:
+      linear-gradient(110deg, rgba(255,255,255,.98), rgba(255,255,255,.72)),
+      url("../../assets/hero/main-hero.png") right bottom / 58% auto no-repeat;
+  }
+
+  .desktop-home-hero h1 {
+    max-width: 690px;
+    margin: 14px 0;
+    font-size: 52px;
+    line-height: 1.02;
+    letter-spacing: 0;
+  }
+
+  .desktop-home-hero p {
+    max-width: 560px;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.45;
+  }
+
+  .desktop-hero-search {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    max-width: 720px;
+    min-height: 62px;
+    margin: 22px 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 8px 8px 8px 16px;
+    background: #fff;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  .desktop-pick-modes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .desktop-pick-modes button {
+    text-align: left;
+    min-height: 108px;
+  }
+
+  .desktop-pick-modes span {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .desktop-car-panel img {
+    width: 100%;
+    height: 210px;
+    object-fit: contain;
+  }
+
+  .route-home .grid:not(.two) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .route-home .timeline {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .desktop-catalog-head {
+    display: flex !important;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 16px;
+  }
+
+  .desktop-catalog-head h1 {
+    margin: 4px 0 0;
+    font-size: 36px;
+  }
+
+  .desktop-applied {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .desktop-sort-row {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .catalog-grid .product-card {
+    min-height: 360px;
+  }
+
+  .show-more {
+    margin-top: 14px;
+  }
+
+  .route-product .responsive-screen > .card,
+  .route-product .responsive-screen > .grid.two {
+    display: none;
+  }
+
+  .desktop-product {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr) 320px;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .product-gallery > img {
+    width: 100%;
+    height: 310px;
+    object-fit: contain;
+  }
+
+  .product-thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .product-thumbs button {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+
+  .product-thumbs img {
+    width: 100%;
+    height: 74px;
+    object-fit: contain;
+  }
+
+  .product-info h1 {
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .product-buy {
+    display: grid;
+    gap: 12px;
+  }
+
+  .vehicle-responsive,
+  .vin-responsive {
+    align-items: start;
+  }
+
+  .flow-sidebar .timeline,
+  .vin-help .timeline {
+    margin-top: 14px;
+  }
+
+  .doc-preview {
+    height: 170px;
+    margin: 14px 0;
+  }
+}
+
+@media (min-width: 1400px) {
+  .catalog-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
