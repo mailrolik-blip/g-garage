@@ -18,9 +18,9 @@ document.querySelector(".search-card").addEventListener("submit", (event) => {
 document.querySelectorAll(".product-card div a").forEach((button) => {
   button.addEventListener("click", (event) => {
     event.preventDefault();
-    button.textContent = "✓";
+    button.classList.add("is-added");
     window.setTimeout(() => {
-      button.textContent = "▱";
+      button.classList.remove("is-added");
     }, 900);
   });
 });
