@@ -1,0 +1,146 @@
+.hero-card {
+  padding: 16px;
+  background:
+    linear-gradient(100deg, rgba(255,255,255,.98), rgba(255,255,255,.68)),
+    url("../../assets/hero/main-hero.png") right bottom / 86% auto no-repeat;
+  min-height: 272px;
+}
+
+.hero-card h1 {
+  width: 72%;
+  margin: 8px 0 10px;
+  font-size: 31px;
+  line-height: 1.02;
+}
+
+.hero-card h1 span {
+  color: var(--red);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 50px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0 12px;
+  background: #fff;
+}
+
+.search-box input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+}
+
+.category-tile {
+  min-height: 112px;
+  padding: 12px;
+  display: grid;
+  align-content: space-between;
+}
+
+.category-tile img {
+  height: 54px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.brand-tile {
+  min-height: 58px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.timeline {
+  display: grid;
+  gap: 10px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+}
+
+.timeline-dot {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.screen-list {
+  display: grid;
+  gap: 8px;
+}
+
+.screen-row {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+}
+
+.screen-row strong {
+  display: block;
+  font-size: 13px;
+}
+
+.screen-row span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.module-card {
+  padding: 12px;
+  min-height: 88px;
+}
+
+.metric {
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.manager-layout .phone-frame {
+  --bg: #f3f5f7;
+}
+
+.desktop-hint {
+  display: none;
+}
+
+@media (min-width: 760px) {
+  body {
+    background: #dfe3e7;
+  }
+
+  .phone-frame {
+    min-height: min(100vh, 960px);
+  }
+
+  .desktop-hint {
+    display: block;
+    max-width: 620px;
+    margin: 18px auto 0;
+    color: #5d6670;
+    text-align: center;
+    font-size: 13px;
+  }
+}

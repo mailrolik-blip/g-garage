@@ -10,3 +10,5 @@ screenshots/*
 !screenshots/icons-tablet-768.png
 !screenshots/icons-mobile-390.png
 !screenshots/fixed-icons-desktop-1440.png
+!screenshots/prototype/
+!screenshots/prototype/*.png
