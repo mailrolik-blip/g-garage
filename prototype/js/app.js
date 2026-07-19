@@ -23,11 +23,13 @@
   function layout(content, opts = {}) {
     const route = Router.current().replace(/^\//, "");
     const isManager = route.startsWith("manager");
-    app.className = `app-shell ${isManager ? "manager-layout" : ""}`;
+    const isReview = route === "review";
+    app.className = `app-shell ${isManager ? "manager-layout" : ""} ${isReview ? "review-layout" : ""}`;
     app.innerHTML = `
-      <div class="phone-frame">
+      <div class="phone-frame responsive-frame">
+        ${desktopHeader(route)}
         ${header(opts.title || "G-Garage", opts.back)}
-        <main class="screen">${content}</main>
+        <main class="screen responsive-screen">${content}</main>
         ${bottomNav(route)}
       </div>
       <p class="desktop-hint">Desktop показывает мобильный прототип в ограниченной рамке. Основная проверка: 390 x 844 px.</p>
@@ -45,6 +47,39 @@
         </a>
         <button class="icon-button" data-go="/cart" aria-label="Корзина">${icon.cart}<span class="badge">${Store.cartCount()}</span></button>
       </header>
+    `;
+  }
+
+  function desktopHeader(route) {
+    const nav = [
+      ["/catalog", "Каталог"],
+      ["/garage", "Подбор по авто"],
+      ["/vin", "VIN-запрос"],
+      ["/brands", "Бренды"],
+      ["/promos", "Акции"],
+      ["/delivery-info", "Доставка"],
+      ["/contacts", "Контакты"]
+    ];
+    return `
+      <div class="desktop-header">
+        <div class="utility-bar">
+          <span>G-Garage · автозапчасти с проверкой совместимости</span>
+          <button data-go="/city">Москва</button>
+          <button data-go="/contacts-quick">Связаться</button>
+        </div>
+        <div class="desktop-mainbar">
+          <a class="desktop-logo" href="#/home"><img src="../assets/logo/g-garage-logo.png" alt="G-Garage"><b>G-Garage</b></a>
+          <div class="desktop-search" data-go="/search">${icon.search}<span>Артикул, VIN или название детали</span></div>
+          <button class="desktop-car" data-go="/garage">${icon.car}<span>${selectedCar().brand} ${selectedCar().model}</span></button>
+          <button class="desktop-action" data-go="/vin">${icon.vin}<span>VIN</span></button>
+          <button class="desktop-action" data-go="/favorites">${icon.heart}<span>Избранное</span></button>
+          <button class="desktop-action" data-go="/account">${icon.user}<span>Кабинет</span></button>
+          <button class="desktop-cart" data-go="/cart">${icon.cart}<span>${Store.cartCount()}</span></button>
+        </div>
+        <nav class="desktop-nav" aria-label="Desktop navigation">
+          ${nav.map(([to, label]) => `<button class="${route === to.slice(1) ? "active" : ""}" data-go="${to}">${label}</button>`).join("")}
+        </nav>
+      </div>
     `;
   }
 
