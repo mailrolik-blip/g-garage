@@ -176,6 +176,28 @@
     </div>`;
   }
 
+  function orderSummary() {
+    return `<aside class="sticky-summary order-summary desktop-only">
+      <b>Итого</b>
+      <div class="row between"><span>Товары</span><strong>${money(Store.cartTotal())}</strong></div>
+      <div class="row between"><span>Скидка</span><strong>-0 ₽</strong></div>
+      <div class="row between"><span>Доставка</span><strong>после выбора</strong></div>
+      <label class="field"><span>Промокод</span><input placeholder="Введите код"></label>
+      <button class="btn full" data-go="/checkout-contact">Оформить заказ</button>
+      <button class="btn secondary full" data-go="/vin">Проверить корзину по VIN</button>
+    </aside>`;
+  }
+
+  function checkoutProgress(route) {
+    const steps = ["Контакты", "Доставка", "Адрес", "Дата", "Оплата", "Проверка"];
+    return `<div class="checkout-progress desktop-only">${steps.map((step, index) => `<span class="${index < 2 ? "done" : ""}">${index + 1}. ${step}</span>`).join("")}</div>`;
+  }
+
+  function accountSidebar() {
+    const links = ["/account:Обзор", "/account-orders:Заказы", "/account-cars:Автомобили", "/account-vin:VIN-заявки", "/favorites:Избранное", "/addresses:Адреса", "/notifications:Уведомления", "/profile:Профиль"];
+    return `<aside class="account-sidebar desktop-only">${links.map((item) => { const [to,label]=item.split(":"); return `<button data-go="${to}">${label}</button>`; }).join("")}</aside>`;
+  }
+
   function home() {
     return `
       <section class="desktop-home-hero desktop-only">
@@ -565,7 +587,7 @@
       const product = products.find((p) => p.id === item.productId);
       return `<article class="card product-card"><img src="${product.image}" alt=""><div><h3>${product.title}</h3><p class="price">${money(product.price)}</p><div class="row"><button class="icon-button" data-qty="${product.id}:-1">-</button><b>${item.qty}</b><button class="icon-button" data-qty="${product.id}:1">+</button><button class="btn ghost" data-go="/cart-delete">Удалить</button></div></div></article>`;
     }).join("");
-    return title("Корзина", "Итого: " + money(Store.cartTotal())) + (rows || empty("Корзина пуста", "", "/catalog")) + `<div class="grid"><button class="btn secondary full" data-go="/promo-code">Ввести промокод</button><button class="btn full" data-go="/checkout-contact">Оформить без регистрации</button></div>`;
+    return title("Корзина", "Итого: " + money(Store.cartTotal())) + `<div class="desktop-split cart-desktop"><section>${rows || empty("Корзина пуста", "", "/catalog")}<div class="grid"><button class="btn secondary full" data-go="/promo-code">Ввести промокод</button><button class="btn full" data-go="/checkout-contact">Оформить без регистрации</button></div></section>${orderSummary()}</div>`;
   }
 
   function checkoutFlow(route) {
@@ -576,7 +598,7 @@
     if (route === "order-success") return stateBlock("Заказ GG-24075 создан", "Отслеживание доступно по ссылке и в личном кабинете.", "/order-status");
     const current = routeMap.get(route);
     const next = steps[steps.indexOf(route) + 1] || "payment-processing";
-    return title(current?.title || "Оформление", "Шаг без обязательной регистрации.") + form(["Имя", "Телефон", "Комментарий"]) + `<div class="grid">${addresses.slice(0, 3).map((a) => `<button class="card pad" data-go="/${next}">${a.title}</button>`).join("")}</div>${button("/" + next, "Продолжить", "full")}`;
+    return title(current?.title || "Оформление", "Шаг без обязательной регистрации.") + checkoutProgress(route) + `<div class="desktop-split checkout-desktop"><section>${form(["Имя", "Телефон", "Комментарий"])}<div class="grid">${addresses.slice(0, 3).map((a) => `<button class="card pad" data-go="/${next}">${a.title}</button>`).join("")}</div>${button("/" + next, "Продолжить", "full")}</section>${orderSummary()}</div>`;
   }
 
   function orderFlow(route) {
@@ -595,7 +617,7 @@
     if (["logout", "delete-account"].includes(route)) return stateBlock(routeMap.get(route).title, "Подтверждение действия без потери заказов в прототипе.", "/account");
     const links = ["/account-orders:Мои заказы", "/account-cars:Мои автомобили", "/account-vin:VIN-заявки", "/favorites:Избранное", "/addresses:Адреса", "/profile:Профиль"];
     if (route === "favorites") return title("Избранное") + `<div class="grid">${products.filter((p) => Store.state.favorites.has(p.id)).map(productCard).join("") || empty("Избранного нет", "", "/catalog")}</div>`;
-    return title(routeMap.get(route)?.title || "Личный кабинет", "Автомобили, заказы, VIN-подборы и повторные покупки.") + `<div class="grid">${links.map((item) => { const [to,label]=item.split(":"); return `<button class="card pad row between" data-go="${to}"><b>${label}</b><span class="status">открыть</span></button>`; }).join("")}</div>`;
+    return title(routeMap.get(route)?.title || "Личный кабинет", "Автомобили, заказы, VIN-подборы и повторные покупки.") + `<div class="account-layout sidebar-layout">${accountSidebar()}<section><div class="account-dashboard desktop-only"><article class="card pad"><b>Ближайший заказ</b><p class="price">${orders[0].id}</p><span class="status ok">${orders[0].status}</span></article><article class="card pad"><b>Автомобиль</b><p>${selectedCar().brand} ${selectedCar().model}</p><button class="btn secondary" data-go="/vehicle-profile">Открыть</button></article><article class="card pad"><b>Открытая VIN-заявка</b><p>${vinRequests[0].id}</p><button class="btn secondary" data-go="/account-vin">Статус</button></article></div><div class="grid account-links">${links.map((item) => { const [to,label]=item.split(":"); return `<button class="card pad row between" data-go="${to}"><b>${label}</b><span class="status">открыть</span></button>`; }).join("")}</div></section></div>`;
   }
 
   function serviceFlow(route) {

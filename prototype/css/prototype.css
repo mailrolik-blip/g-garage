@@ -498,6 +498,88 @@
     height: 170px;
     margin: 14px 0;
   }
+
+  .cart-desktop > section,
+  .checkout-desktop > section {
+    display: grid;
+    gap: 12px;
+  }
+
+  .cart-desktop .product-card {
+    grid-template-columns: 132px 1fr;
+    min-height: auto;
+  }
+
+  .cart-desktop .product-card img {
+    width: 132px;
+    height: 132px;
+  }
+
+  .order-summary {
+    display: grid !important;
+    gap: 12px;
+  }
+
+  .checkout-progress {
+    display: flex !important;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .checkout-progress span {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0 12px;
+    background: #fff;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .checkout-progress span.done {
+    border-color: var(--green);
+    background: #eaf8ef;
+    color: var(--green);
+  }
+
+  .account-sidebar {
+    display: grid !important;
+    gap: 6px;
+    position: sticky;
+    top: 174px;
+  }
+
+  .account-sidebar button {
+    min-height: 42px;
+    border: 0;
+    border-radius: var(--radius);
+    background: transparent;
+    text-align: left;
+    padding: 0 10px;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .account-sidebar button:hover,
+  .account-sidebar button:focus-visible {
+    background: #fff5f6;
+    color: var(--red);
+  }
+
+  .account-dashboard {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .account-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 1400px) {
