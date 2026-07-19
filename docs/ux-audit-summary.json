@@ -1,0 +1,15 @@
+{
+  "routes": 154,
+  "missing_links": 0,
+  "no_incoming": 0,
+  "no_outgoing": 0,
+  "semantic_duplicates": 87,
+  "counts": {
+    "KEEP": 31,
+    "MERGE": 62,
+    "REWORK": 21,
+    "LATER": 32,
+    "DELETE": 8
+  },
+  "mvp_recommended": 50
+}

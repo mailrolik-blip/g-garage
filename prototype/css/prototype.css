@@ -126,6 +126,129 @@
   display: none;
 }
 
+.hidden {
+  display: none !important;
+}
+
+.review-shell {
+  display: grid;
+  gap: 12px;
+}
+
+.review-toolbar {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.review-toolbar h1 {
+  margin: 0 0 4px;
+  font-size: 24px;
+}
+
+.review-toolbar p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.review-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.review-metrics span {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 10px;
+  background: #fafafa;
+  font-size: 12px;
+}
+
+.review-tabs {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.review-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.review-filters {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.review-json {
+  width: 100%;
+  min-height: 86px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px;
+  font-family: Consolas, monospace;
+  font-size: 12px;
+}
+
+.review-list {
+  display: grid;
+  gap: 12px;
+}
+
+.review-card {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+}
+
+.review-thumb {
+  width: 100%;
+  max-height: 360px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  object-fit: cover;
+  object-position: top;
+  background: #fff;
+}
+
+.review-card-body,
+.review-edit,
+.review-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.review-card-body p {
+  margin: 0;
+}
+
+.review-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scenario-card h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.scenario-chain {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
 @media (min-width: 760px) {
   body {
     background: #dfe3e7;
@@ -142,5 +265,35 @@
     color: #5d6670;
     text-align: center;
     font-size: 13px;
+  }
+
+  .app-shell:has(.review-shell) .phone-frame {
+    width: min(calc(100% - 40px), 1280px);
+    --max-mobile: 1280px;
+  }
+
+  .app-shell:has(.review-shell) .bottom-nav {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .review-toolbar {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+
+  .review-filters {
+    grid-template-columns: 1.4fr repeat(5, 1fr);
+  }
+
+  .review-card {
+    grid-template-columns: 168px 1fr;
+  }
+
+  .review-thumb {
+    height: 360px;
+  }
+
+  .review-edit {
+    grid-template-columns: 160px 160px 1fr 1fr;
   }
 }

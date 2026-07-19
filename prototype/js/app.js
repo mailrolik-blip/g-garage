@@ -145,6 +145,187 @@
     `;
   }
 
+  const mvpRoutes = new Set([
+    "home", "search",
+    "garage", "vehicle-brand", "vehicle-model", "vehicle-year", "vehicle-engine",
+    "vin", "vin-upload", "vin-preview", "vin-sent", "vin-status", "vin-need-data", "vin-selection", "vin-compare",
+    "categories", "catalog", "filters", "sort", "compatibility", "article-search", "empty-results",
+    "product", "product-fit-ok", "product-fit-bad", "availability", "compare-analogs",
+    "cart", "cart-price-changed", "cart-delivery-changed",
+    "checkout-contact", "checkout-delivery", "courier-address", "delivery-time", "payment", "checkout-review", "payment-success", "payment-error", "order-success",
+    "order-status", "order-detail",
+    "login", "code", "account", "account-orders", "account-cars",
+    "manager", "manager-dashboard", "manager-vin-queue", "manager-vin-detail"
+  ]);
+
+  const mergeRoutes = new Set([
+    "search-suggestions", "search-history", "contacts-quick", "vehicle-confirm", "vehicle-edit", "vehicle-delete",
+    "vin-upload", "vin-preview", "vin-photo-error", "vin-sent", "vin-need-data", "vin-answer", "vin-ready", "vin-closed",
+    "subcategory", "filters", "sort", "compatibility", "brand", "article-search", "search-results", "analogs", "recent", "empty-results", "out-of-stock", "catalog-error", "promo",
+    "product-fit-ok", "product-fit-unknown", "product-fit-bad", "product-no-car", "gallery", "specs", "plain-description", "availability", "supplier", "warranty", "related", "product-question", "added-cart", "added-favorite",
+    "cart-qty", "cart-delete", "cart-out", "cart-price-changed", "cart-delivery-changed", "cart-analog", "promo-code", "promo-applied", "promo-error",
+    "pickup", "pickup-map", "courier-address", "transport-company", "delivery-time", "payment", "order-comment", "terms", "payment-processing", "payment-success", "payment-error", "payment-change",
+    "order-confirm-required", "order-cancelled", "cancel-request", "order-contact", "documents",
+    "code-error", "account-repeat", "account-car", "account-vin-detail", "address-add", "notification-settings", "profile-edit", "logout", "delete-account",
+    "support-chat", "callback", "offline", "server-error", "maintenance",
+    "manager-vin-filters", "manager-request-data", "manager-add-product", "manager-compare", "manager-comment", "manager-preview", "manager-send", "manager-order-status", "manager-contact"
+  ]);
+
+  const laterRoutes = new Set([
+    "brands", "brand", "recent", "promos", "promo", "gallery", "specs", "plain-description", "supplier", "warranty", "related",
+    "repeat-order", "documents", "account-repeat", "addresses", "address-add", "notifications", "notification-settings", "profile-edit",
+    "delivery-info", "returns", "about", "faq", "support", "support-chat", "callback", "privacy", "terms-page", "personal-data",
+    "manager-vin-filters", "manager-compare", "manager-comment", "manager-catalog", "manager-promos", "manager-settings"
+  ]);
+
+  const deleteRoutes = new Set(["added-cart", "added-favorite", "cart-qty", "account-car", "account-repeat", "documents", "manager-settings", "maintenance"]);
+  const reworkRoutes = new Set(["home", "vin", "vin-status", "vin-selection", "catalog", "filters", "product", "compare-analogs", "cart", "checkout-contact", "checkout-delivery", "checkout-review", "payment-error", "order-status", "account", "manager-dashboard", "manager-vin-detail", "manager-product-search", "manager-preview", "manager-order-detail", "offline"]);
+  const p0Routes = new Set(["home", "search", "garage", "vehicle-brand", "vehicle-model", "vehicle-year", "vehicle-engine", "vin", "vin-sent", "vin-status", "vin-selection", "catalog", "filters", "sort", "product", "product-fit-ok", "product-fit-unknown", "product-fit-bad", "compare-analogs", "cart", "cart-empty", "cart-price-changed", "checkout-contact", "checkout-delivery", "payment", "checkout-review", "payment-success", "payment-error", "order-success", "order-status", "manager", "manager-dashboard", "manager-vin-queue", "manager-vin-detail", "manager-product-search", "manager-preview", "manager-send", "manager-orders", "manager-order-detail"]);
+  const p1Routes = new Set(["search-suggestions", "search-history", "city", "contacts-quick", "vehicle-confirm", "vehicle-profile", "vehicle-categories", "vin-upload", "vin-preview", "vin-photo-error", "vin-need-data", "vin-answer", "vin-ready", "vin-compare", "vin-pick-product", "categories", "compatibility", "article-search", "search-results", "analogs", "empty-results", "catalog-error", "product-no-car", "availability", "product-question", "cart-delivery-changed", "cart-analog", "promo-code", "promo-applied", "promo-error", "pickup", "courier-address", "delivery-time", "terms", "payment-processing", "payment-change", "order-detail", "tracking", "order-confirm-required", "order-contact", "login", "code", "code-error", "account", "account-orders", "account-order", "account-cars", "account-vin", "favorites", "profile", "404", "server-error", "manager-order-status", "manager-contact"]);
+
+  function reviewMeta(screen) {
+    const route = screen.route;
+    let decision = "KEEP";
+    if (deleteRoutes.has(route)) decision = "DELETE";
+    else if (reworkRoutes.has(route)) decision = "REWORK";
+    else if (laterRoutes.has(route)) decision = "LATER";
+    else if (mergeRoutes.has(route)) decision = "MERGE";
+    const priority = p0Routes.has(route) ? "P0" : p1Routes.has(route) ? "P1" : laterRoutes.has(route) ? "P2" : "P3";
+    const problem = decision === "KEEP" ? "No blocking issue found" :
+      decision === "REWORK" ? "Needed for launch, but proof, copy, hierarchy or next action is weak" :
+      decision === "MERGE" ? "Can be handled inside a parent screen, modal or bottom sheet" :
+      decision === "LATER" ? "Useful after first live traffic, not required to validate MVP" :
+      "Duplicate or low-value state for the first release";
+    const fix = decision === "KEEP" ? "Keep in MVP flow and validate copy during owner review" :
+      decision === "REWORK" ? "Clarify primary CTA, add proof, preserve context and reduce secondary actions" :
+      decision === "MERGE" ? "Merge with parent route and keep as component state" :
+      decision === "LATER" ? "Move to version 1.1 or later backlog" :
+      "Do not implement as a separate route";
+    return { decision, priority, problem, fix, mvp: mvpRoutes.has(route) && decision !== "DELETE" && decision !== "LATER" };
+  }
+
+  function reviewStorage() {
+    try {
+      return JSON.parse(localStorage.getItem("gg-review-decisions") || "{}");
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function saveReviewStorage(value) {
+    localStorage.setItem("gg-review-decisions", JSON.stringify(value));
+  }
+
+  function reviewDecision(screen) {
+    const stored = reviewStorage()[screen.route] || {};
+    return { ...reviewMeta(screen), ...stored };
+  }
+
+  function reviewCounts() {
+    const rows = screens.map(reviewDecision);
+    return ["KEEP", "MERGE", "REWORK", "LATER", "DELETE"].map((key) => [key, rows.filter((item) => item.decision === key).length])
+      .concat([["UNSET", rows.filter((item) => !item.decision).length]]);
+  }
+
+  function reviewScreen() {
+    const modules = [...new Set(screens.map((screen) => screen.module))];
+    const types = [...new Set(screens.map((screen) => screen.type))];
+    const counts = reviewCounts();
+    return `
+      <section class="review-shell">
+        <div class="review-toolbar">
+          <div>
+            <h1>UX review</h1>
+            <p>${screens.length} audited screens. Decisions are stored only in localStorage.</p>
+          </div>
+          <div class="review-metrics">
+            <span>ALL <b>${screens.length}</b></span>
+            ${counts.map(([key, value]) => `<span>${key} <b>${value}</b></span>`).join("")}
+          </div>
+        </div>
+        <div class="tabs review-tabs">
+          <button class="active" data-review-tab="screens">Screens</button>
+          <button data-review-tab="scenarios">Scenarios</button>
+        </div>
+        <div class="review-panel" id="review-screens">
+          <div class="review-filters">
+            <label class="field"><span>Search</span><input id="review-search" placeholder="Route or title"></label>
+            <label class="field"><span>Module</span><select id="review-module"><option value="">All</option>${modules.map((item) => `<option>${item}</option>`).join("")}</select></label>
+            <label class="field"><span>Type</span><select id="review-type"><option value="">All</option>${types.map((item) => `<option>${item}</option>`).join("")}</select></label>
+            <label class="field"><span>Priority</span><select id="review-priority"><option value="">All</option><option>P0</option><option>P1</option><option>P2</option><option>P3</option></select></label>
+            <label class="field"><span>Status</span><select id="review-status"><option value="">All</option><option>KEEP</option><option>MERGE</option><option>REWORK</option><option>LATER</option><option>DELETE</option></select></label>
+            <label class="field"><span>Audience</span><select id="review-audience"><option value="">All</option><option value="client">Client</option><option value="manager">Manager</option></select></label>
+          </div>
+          <div class="chip-row">
+            <button class="chip" data-review-toggle="problem">Only problematic</button>
+            <button class="chip" data-review-toggle="mvp">Only MVP</button>
+            <button class="chip" data-review-toggle="unseen">Only unreviewed</button>
+            <button class="chip" data-review-next>Open next unreviewed</button>
+            <button class="chip" data-review-export>Export JSON</button>
+            <button class="chip" data-review-import>Import JSON</button>
+            <button class="chip" data-review-reset>Reset decisions</button>
+          </div>
+          <textarea id="review-json" class="review-json" placeholder="Exported or imported JSON"></textarea>
+          <div id="review-list" class="review-list">${reviewRows(screens)}</div>
+        </div>
+        <div class="review-panel hidden" id="review-scenarios">${scenarioRows()}</div>
+      </section>
+    `;
+  }
+
+  function reviewRows(list) {
+    return list.map((screen) => {
+      const meta = reviewDecision(screen);
+      const thumb = `review-thumbnails/${String(screen.number).padStart(3, "0")}-${screen.route.replace(/[^a-z0-9-]/gi, "-")}.png`;
+      return `
+        <article class="card review-card" data-review-card="${screen.route}" data-module="${screen.module}" data-type="${screen.type}" data-priority="${meta.priority}" data-status="${meta.decision}" data-mvp="${meta.mvp}">
+          <img class="review-thumb" src="${thumb}" alt="">
+          <div class="review-card-body">
+            <div class="row between">
+              <b>${screen.number}. ${screen.title}</b>
+              <span class="status ${meta.decision === "KEEP" ? "ok" : meta.decision === "DELETE" ? "bad" : "warn"}">${meta.decision}</span>
+            </div>
+            <p class="small muted">#/${screen.route} - ${screen.module} - ${screen.type} - ${meta.priority}</p>
+            <p class="small"><b>Issue:</b> ${meta.problem}</p>
+            <p class="small"><b>Fix:</b> ${meta.fix}</p>
+            <div class="review-actions">
+              <button class="btn secondary" data-go="/${screen.route}">Open screen</button>
+              <a class="btn secondary" href="#/${screen.route}" target="_blank" rel="noreferrer">Open beside</a>
+            </div>
+            <div class="review-edit">
+              <label class="field"><span>Decision</span><select data-review-field="decision">${["KEEP", "MERGE", "REWORK", "LATER", "DELETE"].map((value) => `<option ${meta.decision === value ? "selected" : ""}>${value}</option>`).join("")}</select></label>
+              <label class="field"><span>Merge with</span><input data-review-field="mergeWith" value="${meta.mergeWith || ""}" placeholder="route"></label>
+              <label class="field"><span>Comment</span><textarea data-review-field="comment" placeholder="Owner comment">${meta.comment || ""}</textarea></label>
+              <label class="field"><span>What to fix</span><textarea data-review-field="todo" placeholder="Concrete UX change">${meta.todo || ""}</textarea></label>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
+  function scenarioRows() {
+    const scenarios = [
+      ["Article to order", ["home", "article-search", "product", "cart", "checkout-contact", "checkout-review", "order-success"], "Article search route is too similar to common search and should merge into search mode."],
+      ["Vehicle fit", ["home", "garage", "vehicle-brand", "vehicle-model", "vehicle-year", "vehicle-engine", "vehicle-confirm", "vehicle-categories", "catalog", "product"], "Vehicle context is visible, but exact fit proof needs stronger evidence."],
+      ["VIN to order", ["home", "vin", "vin-upload", "vin-preview", "vin-sent", "vin-status", "vin-ready", "vin-selection", "vin-compare", "vin-pick-product", "cart", "checkout-contact", "order-success"], "Too many status screens can be merged into one live VIN request detail."],
+      ["Catalog recovery", ["catalog", "filters", "sort", "empty-results", "vin"], "Empty results should preserve filters and prefill VIN need."],
+      ["Wrong fit recovery", ["product-fit-bad", "compare-analogs", "product-fit-ok", "cart"], "Bad fit state needs a direct compatible analog CTA."],
+      ["Cart change", ["cart", "cart-price-changed", "cart-delivery-changed", "cart-analog", "checkout-contact"], "Changes are explicit; confirmation language needs legal and price timestamp data."],
+      ["Returning customer", ["login", "code", "account", "account-orders", "account-order", "repeat-order", "cart"], "Repeat order needs quantity and availability recheck before cart."],
+      ["Manager VIN", ["manager", "manager-dashboard", "manager-vin-queue", "manager-vin-detail", "manager-product-search", "manager-add-product", "manager-preview", "manager-send"], "Manager can walk the process, but lacks real assignment and message history data."]
+    ];
+    return `<div class="grid">${scenarios.map((scenario, index) => {
+      const [name, routes, problem] = scenario;
+      return `<article class="card pad scenario-card">
+        <div class="row between"><h2>${index + 1}. ${name}</h2><span class="status ${routes.length > 9 ? "warn" : "ok"}">${routes.length} steps</span></div>
+        <div class="scenario-chain">${routes.map((route) => `<button class="chip" data-go="/${route}">#/${route}</button>`).join("")}</div>
+        <p><b>Problems:</b> ${problem}</p>
+        <p class="small muted">Dead ends: 0 after map access and back button. Extra steps: ${Math.max(0, routes.length - 7)}. Critical question: what proof or data makes the next step trustworthy?</p>
+      </article>`;
+    }).join("")}</div>`;
+  }
+
   function screenRows(list) {
     return list.map((screen) => `
       <article class="card screen-row">
@@ -361,7 +542,8 @@
     const route = Router.current().replace(/^\//, "");
     const [base, param] = route.split("/");
     let content;
-    if (base === "map") content = mapScreen();
+    if (base === "review") content = reviewScreen();
+    else if (base === "map") content = mapScreen();
     else if (base === "home" || !base) content = home();
     else if (base === "menu") content = menuScreen();
     else if (base.startsWith("search")) content = searchScreen(routeMap.get(base)?.title);
@@ -378,6 +560,7 @@
     else content = serviceFlow(base);
     layout(content, { title: routeMap.get(base)?.module || "G-Garage", back: base !== "home" });
     bindMapControls();
+    bindReviewControls();
   }
 
   function bindActions() {
@@ -426,6 +609,100 @@
       filters.querySelectorAll(".chip").forEach((chip) => chip.classList.toggle("active", chip === node));
       apply();
     }));
+  }
+
+  function bindReviewControls() {
+    const list = document.querySelector("#review-list");
+    if (!list) return;
+    const filters = {
+      search: document.querySelector("#review-search"),
+      module: document.querySelector("#review-module"),
+      type: document.querySelector("#review-type"),
+      priority: document.querySelector("#review-priority"),
+      status: document.querySelector("#review-status"),
+      audience: document.querySelector("#review-audience")
+    };
+    const toggles = { problem: false, mvp: false, unseen: false };
+
+    function filteredScreens() {
+      const q = (filters.search?.value || "").trim().toLowerCase();
+      return screens.filter((screen) => {
+        const meta = reviewDecision(screen);
+        if (q && !(`${screen.title} ${screen.route}`.toLowerCase().includes(q))) return false;
+        if (filters.module?.value && screen.module !== filters.module.value) return false;
+        if (filters.type?.value && screen.type !== filters.type.value) return false;
+        if (filters.priority?.value && meta.priority !== filters.priority.value) return false;
+        if (filters.status?.value && meta.decision !== filters.status.value) return false;
+        if (filters.audience?.value === "manager" && screen.type !== "manager") return false;
+        if (filters.audience?.value === "client" && screen.type === "manager") return false;
+        if (toggles.problem && meta.decision === "KEEP") return false;
+        if (toggles.mvp && !meta.mvp) return false;
+        if (toggles.unseen && meta.seen) return false;
+        return true;
+      });
+    }
+
+    function refresh() {
+      list.innerHTML = reviewRows(filteredScreens());
+      bindActions();
+      bindReviewEditors();
+    }
+
+    function bindReviewEditors() {
+      list.querySelectorAll("[data-review-field]").forEach((field) => {
+        field.addEventListener("change", () => saveReviewField(field));
+        field.addEventListener("input", () => saveReviewField(field));
+      });
+    }
+
+    function saveReviewField(field) {
+      const card = field.closest("[data-review-card]");
+      const route = card?.dataset.reviewCard;
+      if (!route) return;
+      const data = reviewStorage();
+      data[route] = { ...(data[route] || {}), seen: true, [field.dataset.reviewField]: field.value };
+      saveReviewStorage(data);
+      card.dataset.status = data[route].decision || card.dataset.status;
+    }
+
+    Object.values(filters).forEach((node) => node?.addEventListener("input", refresh));
+    document.querySelectorAll("[data-review-toggle]").forEach((node) => node.addEventListener("click", () => {
+      const key = node.dataset.reviewToggle;
+      toggles[key] = !toggles[key];
+      node.classList.toggle("active", toggles[key]);
+      refresh();
+    }));
+    document.querySelector("[data-review-next]")?.addEventListener("click", () => {
+      const route = screens.find((screen) => !reviewDecision(screen).seen)?.route;
+      if (route) Router.go(`/${route}`);
+    });
+    document.querySelector("[data-review-export]")?.addEventListener("click", () => {
+      const node = document.querySelector("#review-json");
+      node.value = JSON.stringify(reviewStorage(), null, 2);
+      node.focus();
+    });
+    document.querySelector("[data-review-import]")?.addEventListener("click", () => {
+      const node = document.querySelector("#review-json");
+      try {
+        saveReviewStorage(JSON.parse(node.value || "{}"));
+        Store.toast("Review JSON imported");
+        render();
+      } catch (_) {
+        Store.toast("Invalid JSON");
+      }
+    });
+    document.querySelector("[data-review-reset]")?.addEventListener("click", () => {
+      localStorage.removeItem("gg-review-decisions");
+      Store.toast("Review decisions reset");
+      render();
+    });
+    document.querySelectorAll("[data-review-tab]").forEach((node) => node.addEventListener("click", () => {
+      const tab = node.dataset.reviewTab;
+      document.querySelectorAll("[data-review-tab]").forEach((item) => item.classList.toggle("active", item === node));
+      document.querySelector("#review-screens")?.classList.toggle("hidden", tab !== "screens");
+      document.querySelector("#review-scenarios")?.classList.toggle("hidden", tab !== "scenarios");
+    }));
+    bindReviewEditors();
   }
 
   Router.onChange(render);
