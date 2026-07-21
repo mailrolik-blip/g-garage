@@ -1,0 +1,17 @@
+﻿:root {
+  --bg: #f4f5f6;
+  --paper: #fff;
+  --soft: #f8f9fa;
+  --ink: #1f252b;
+  --muted: #66717d;
+  --line: #e1e4e8;
+  --red: #ef1f2d;
+  --red-dark: #d71920;
+  --orange: #f47b20;
+  --green: #209d55;
+  --blue: #246fc7;
+  --shadow: 0 12px 30px rgba(24, 32, 40, .08);
+  --radius: 8px;
+  --max: 1360px;
+  --font: Arial, "Helvetica Neue", sans-serif;
+}
