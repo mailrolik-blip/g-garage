@@ -17,8 +17,9 @@ const researched: Record<string, { brand?: string; article: string; name: string
   ] },
   "DZ14251770030": { brand: "SHACMAN", article: "DZ14251770030", name: "Зеркало левое в сборе X3000 с подогревом", category: "кузов", sources: [
     { type: "LARGE_RETAILER", url: "https://deruna.com/portfolio-item/shacman-dz14251770030", domain: "deruna.com", title: "DZ14251770030 Left Rearview Mirror Assembly", evidence: "EXACT_ARTICLE", brand: "Shacman", article: "DZ14251770030", name: "Left Rearview Mirror Assembly" },
-    { type: "LARGE_RETAILER", url: "https://stugs.ru/zerkalo-shaanxi-x3000-v-sbore-levoe-bez-podogreva/", domain: "stugs.ru", title: "Зеркало Shaanxi / SHACMAN X3000", evidence: "BRAND_ARTICLE", brand: "SHACMAN", article: "DZ14251770030", name: "Зеркало левое" }
-  ] },
+    { type: "LARGE_RETAILER", url: "https://stugs.ru/zerkalo-shaanxi-x3000-v-sbore-levoe-bez-podogreva/", domain: "stugs.ru", title: "Зеркало Shaanxi / SHACMAN X3000", evidence: "BRAND_ARTICLE", brand: "SHACMAN", article: "DZ14251770030", name: "Зеркало левое" },
+    { type: "LARGE_RETAILER", url: "https://ati-auto.ru/catalog/weichai/dz14251770030/", domain: "ati-auto.ru", title: "Weichai DZ14251770030", evidence: "EXACT_ARTICLE", brand: "WEICHAI", article: "DZ14251770030", name: "Зеркало заднего вида" }
+  ], conflict: "Article is listed under SHACMAN and WEICHAI retail sources; requires human review." },
   "DZ95259450100": { brand: "SHACMAN", article: "DZ95259450100", name: "Бачок расширительный F3000", category: "охлаждение", oem: ["81.06102.6205"], sources: [
     { type: "LARGE_RETAILER", url: "https://deruna.com/portfolio-item/shacman-dz95259450100", domain: "deruna.com", title: "SHACMAN DZ95259450100 Expansion Tank Assembly", evidence: "EXACT_ARTICLE", brand: "SHACMAN", article: "DZ95259450100", name: "Expansion Tank Assembly" },
     { type: "LARGE_RETAILER", url: "https://st-spares.ru/shacman/shacman-sistema-ohlaghdeniya-i-otopleniya/shaanxi-shacman-dz95259450100", domain: "st-spares.ru", title: "Бачок расширительный F3000 SHACMAN DZ95259450100", evidence: "BRAND_ARTICLE", brand: "Shacman", article: "DZ95259450100", name: "Бачок расширительный F3000" }
@@ -101,3 +102,4 @@ async function main() {
 }
 
 main().finally(async () => prisma.$disconnect());
+
