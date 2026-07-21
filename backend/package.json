@@ -20,7 +20,10 @@
                     "catalog:review":  "tsx scripts/catalog-review.ts",
                     "catalog:import-review":  "tsx scripts/catalog-import-review.ts",
                     "enrich:sample":  "tsx scripts/enrich-sample.ts",
-                    "enrich:research":  "tsx scripts/enrich-research.ts"
+                    "enrich:research":  "tsx scripts/enrich-research.ts",
+                    "enrich:review":  "tsx scripts/enrich-review.ts",
+                    "enrich:export":  "tsx scripts/enrich-export.ts",
+                    "enrich:apply":  "tsx scripts/enrich-apply.ts"
                 },
     "dependencies":  {
                          "@fastify/cors":  "^10.0.1",

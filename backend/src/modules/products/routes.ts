@@ -1,4 +1,4 @@
-import type { Prisma } from "@prisma/client";
+﻿import type { Prisma } from "@prisma/client";
 import type { FastifyPluginAsync } from "fastify";
 import { normalizeArticle } from "../../lib/normalize.js";
 import { idParamSchema, productListQuerySchema, slugParamSchema } from "../../lib/validation.js";
@@ -30,6 +30,12 @@ function productInclude() {
       },
       orderBy: [{ retailPrice: "asc" as const }, { deliveryDaysMin: "asc" as const }],
     },
+    enrichmentDecisions: {
+      where: { decision: "ACCEPT" as const },
+      orderBy: { createdAt: "desc" as const },
+      take: 1,
+      include: { candidate: { include: { _count: { select: { evidence: true } } } } },
+    },
   };
 }
 
@@ -37,13 +43,15 @@ type ProductWithOffers = Prisma.ProductGetPayload<{ include: ReturnType<typeof p
 
 function decorate(product: ProductWithOffers) {
   const offers = product.offers ?? [];
+  const { enrichmentDecisions, ...publicProduct } = product;
+  const acceptedEnrichment = enrichmentDecisions[0] ?? null;
   const prices = offers.map((offer) => Number(offer.retailPrice));
   const delivery = offers.map((offer) => offer.deliveryDaysMin).filter((value): value is number => typeof value === "number");
   const supplierCount = new Set(offers.map((offer) => offer.warehouseId ?? offer.id)).size;
   const updatedAtValues = offers.flatMap((offer) => [offer.sourceUpdatedAt, offer.updatedAt]).filter((value): value is Date => value instanceof Date);
   const latestUpdate = updatedAtValues.length ? new Date(Math.max(...updatedAtValues.map((value) => value.getTime()))) : null;
   return {
-    ...product,
+    ...publicProduct,
     minPrice: prices.length ? Math.min(...prices) : null,
     maxPrice: prices.length ? Math.max(...prices) : null,
     totalStock: offers.reduce((sum, offer) => sum + offer.stockQuantity, 0),
@@ -52,6 +60,9 @@ function decorate(product: ProductWithOffers) {
     supplierCount,
     priceUpdatedAt: latestUpdate,
     availabilityUpdatedAt: latestUpdate,
+    enrichmentStatus: acceptedEnrichment ? "CONFIRMED" : null,
+    evidenceCount: acceptedEnrichment?.candidate._count.evidence ?? 0,
+    confirmedAt: acceptedEnrichment?.createdAt ?? null,
   };
 }
 
@@ -109,3 +120,4 @@ export const productRoutes: FastifyPluginAsync = async (app) => {
     return decorate(product);
   });
 };
+

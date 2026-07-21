@@ -1,0 +1,2 @@
+﻿itemId,sourceArticle,sourceName,sourcePrice,proposedBrand,proposedArticle,proposedName,proposedCategory,proposedOem,proposedGtin,confidence,status,source1,source2,source3,conflicts,decision,note
+sample-item-001,ABC-123,Brake pad sample,1000.00,Example Brand,ABC-123,Brake pad,тормозная система,,4601234567893,92,CONFIRMED,https://example.invalid/source-1,https://example.invalid/source-2,, ,ACCEPT,Example row only
