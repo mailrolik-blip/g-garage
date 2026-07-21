@@ -16,7 +16,9 @@
                     "db:seed":  "tsx prisma/seed.ts",
                     "db:studio":  "prisma studio",
                     "price:inspect":  "tsx scripts/inspect-orion-price.ts",
-                    "import:orion":  "tsx scripts/import-orion-price.ts"
+                    "import:orion":  "tsx scripts/import-orion-price.ts",
+                    "catalog:review":  "tsx scripts/catalog-review.ts",
+                    "catalog:import-review":  "tsx scripts/catalog-import-review.ts"
                 },
     "dependencies":  {
                          "@fastify/cors":  "^10.0.1",

@@ -1,0 +1,2 @@
+itemId,sourceRowNumber,sourceArticle,sourceName,detectedBrand,price,stock,matchingStatus,candidateProductId,candidateBrand,candidateArticle,candidateName,confidence,reviewDecision,reviewedProductId,note,brand,article,name,category
+example-item-id,10,ABC-100,Example brake pad,BREMBO,1200.00,5,NEEDS_REVIEW,example-product-id,Brembo,P-1001,Brake pad,80.00,SKIP,,No decision yet,,,,
