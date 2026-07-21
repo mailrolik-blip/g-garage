@@ -18,3 +18,29 @@ npm run db:migrate
 npm run db:seed
 npm run dev
 ```
+
+## Checks
+
+```powershell
+npm run lint
+npm run typecheck
+npm run build
+npm run test
+npm run test:integration
+```
+
+## Price list tools
+
+```powershell
+npm run price:inspect -- --file "imports\raw\Прайс ОРИОН.xls"
+npm run import:orion -- --file "imports\raw\Прайс ОРИОН.xls" --dry-run
+npm run import:orion -- --file "imports\raw\Прайс ОРИОН.xls"
+```
+
+The source XLS must stay in `imports/raw/`; this folder is ignored except `.gitkeep`.
+
+## Documentation
+
+- `docs/orion-price-analysis.md`
+- `docs/orion-import-result.md`
+- `docs/catalog-api-v1.md`
