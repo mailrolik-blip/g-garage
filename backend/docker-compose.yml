@@ -1,0 +1,20 @@
+﻿services:
+  postgres:
+    image: postgres:15
+    container_name: ggarage-catalog-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ggarage
+      POSTGRES_USER: ggarage
+      POSTGRES_PASSWORD: change_me
+    ports:
+      - "5544:5432"
+    volumes:
+      - ggarage_catalog_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ggarage -d ggarage"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  ggarage_catalog_pgdata:

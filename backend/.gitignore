@@ -1,0 +1,11 @@
+﻿imports/raw/*
+!imports/raw/.gitkeep
+.env
+.env.*
+!.env.example
+*.log
+coverage/
+dist/
+node_modules/
+database-dumps/
+tmp/
