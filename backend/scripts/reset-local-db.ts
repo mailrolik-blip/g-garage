@@ -1,0 +1,12 @@
+﻿import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+await prisma.priceImportRow.deleteMany();
+await prisma.priceImport.deleteMany();
+await prisma.supplierOffer.deleteMany();
+await prisma.productImage.deleteMany();
+await prisma.product.deleteMany();
+await prisma.warehouse.deleteMany();
+await prisma.supplier.deleteMany();
+await prisma.category.deleteMany();
+await prisma.brand.deleteMany();
+await prisma.$disconnect();
