@@ -42,8 +42,8 @@
 .stepper { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
 .stepper span { min-height: 36px; border: 1px solid var(--line); border-radius: 999px; display: grid; place-items: center; color: var(--muted); font-weight: 700; font-size: 13px; }
 .stepper span.active, .stepper span.done { border-color: var(--red); color: var(--red); background: #fff5f6; }
-.option-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-.option-grid button { min-height: 54px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; font-weight: 700; }
+.option-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+.option-grid button { min-height: 54px; min-width: 0; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; font-weight: 700; overflow-wrap: anywhere; }
 .option-grid button.active { border-color: var(--red); color: var(--red); background: #fff5f6; }
 .cart-layout, .checkout-layout { display: grid; grid-template-columns: minmax(0,1fr) 360px; gap: 18px; align-items: start; }
 .cart-item { display: grid; grid-template-columns: 128px minmax(0,1fr) 150px; gap: 14px; padding: 14px; margin-bottom: 10px; }

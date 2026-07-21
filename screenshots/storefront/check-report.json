@@ -1,0 +1,277 @@
+{
+  "pages": [
+    {
+      "route": "/storefront/",
+      "viewport": "1280x800",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/catalog/",
+      "viewport": "1280x800",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/product/?id=product-001",
+      "viewport": "1280x800",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vehicle/",
+      "viewport": "1280x800",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vin/",
+      "viewport": "1280x800",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/cart/",
+      "viewport": "1280x800",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/checkout/",
+      "viewport": "1280x800",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/account/",
+      "viewport": "1280x800",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/delivery/",
+      "viewport": "1280x800",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/",
+      "viewport": "1440x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/catalog/",
+      "viewport": "1440x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/product/?id=product-001",
+      "viewport": "1440x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vehicle/",
+      "viewport": "1440x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vin/",
+      "viewport": "1440x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/cart/",
+      "viewport": "1440x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/checkout/",
+      "viewport": "1440x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/account/",
+      "viewport": "1440x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/delivery/",
+      "viewport": "1440x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/",
+      "viewport": "1600x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/catalog/",
+      "viewport": "1600x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/product/?id=product-001",
+      "viewport": "1600x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vehicle/",
+      "viewport": "1600x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vin/",
+      "viewport": "1600x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/cart/",
+      "viewport": "1600x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/checkout/",
+      "viewport": "1600x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/account/",
+      "viewport": "1600x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/delivery/",
+      "viewport": "1600x900",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/",
+      "viewport": "1920x1080",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/catalog/",
+      "viewport": "1920x1080",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/product/?id=product-001",
+      "viewport": "1920x1080",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vehicle/",
+      "viewport": "1920x1080",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vin/",
+      "viewport": "1920x1080",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/cart/",
+      "viewport": "1920x1080",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/checkout/",
+      "viewport": "1920x1080",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/account/",
+      "viewport": "1920x1080",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/delivery/",
+      "viewport": "1920x1080",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/",
+      "viewport": "768x1024",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/catalog/",
+      "viewport": "768x1024",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/product/?id=product-001",
+      "viewport": "768x1024",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vehicle/",
+      "viewport": "768x1024",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/vin/",
+      "viewport": "768x1024",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/cart/",
+      "viewport": "768x1024",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/checkout/",
+      "viewport": "768x1024",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/account/",
+      "viewport": "768x1024",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    },
+    {
+      "route": "/storefront/delivery/",
+      "viewport": "768x1024",
+      "status": 200,
+      "title": "G-Garage Storefront"
+    }
+  ],
+  "errors": [],
+  "external": [],
+  "hscroll": []
+}
