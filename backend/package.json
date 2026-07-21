@@ -1,4 +1,4 @@
-{
+﻿{
     "name":  "ggarage-catalog-backend",
     "version":  "0.1.0",
     "private":  true,
@@ -19,7 +19,8 @@
                     "import:orion":  "tsx scripts/import-orion-price.ts",
                     "catalog:review":  "tsx scripts/catalog-review.ts",
                     "catalog:import-review":  "tsx scripts/catalog-import-review.ts",
-                    "enrich:sample":  "tsx scripts/enrich-sample.ts"
+                    "enrich:sample":  "tsx scripts/enrich-sample.ts",
+                    "enrich:research":  "tsx scripts/enrich-research.ts"
                 },
     "dependencies":  {
                          "@fastify/cors":  "^10.0.1",
