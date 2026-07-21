@@ -1,36 +1,24 @@
-# Backend Dependency Audit
+# Backend dependency audit
 
-Команда:
+Дата: 2026-07-21
+Команда: npm audit --json
 
-```powershell
-npm audit --json
-```
+## Итог
 
-Дата проверки: 2026-07-21.
+- Всего уязвимостей: 6.
+- Moderate: 3.
+- High: 2.
+- Critical: 1.
 
-## Summary
+## Найдено
 
-| Severity | Count |
-| --- | ---: |
-| critical | 1 |
-| high | 2 |
-| moderate | 3 |
-| low | 0 |
-| total | 6 |
+- vitest: direct dev dependency, critical advisory GHSA-5xrq-8626-4rwp. Используется только для локального запуска тестов, не runtime API. Безопасное обновление доступно через major upgrade до vitest 4.1.10, требуется отдельная задача из-за major change.
+- vite, vite-node, @vitest/mocker, esbuild: transitive dev dependencies через vitest. Используются тестовым раннером, не runtime API. Исправление также требует major upgrade vitest.
+- xlsx: direct runtime dependency в package.json, high advisories GHSA-4r6h-8v6p-xvw6 и GHSA-5pgg-2g8v-p4x9. В проекте используется только локальными CLI-скриптами импорта/анализа XLS, не подключён в web request path и не должен деплоиться на production как importer. npm audit не предлагает fixAvailable.
 
-## Findings
+## Решение этапа
 
-| Package | Severity | Direct | Runtime use | Fix available | Notes |
-| --- | --- | --- | --- | --- | --- |
-| `vitest` | critical | yes | no, test runner only | yes, `vitest@4.1.10`, semver-major | Separate upgrade task required; do not auto-fix in this stage. |
-| `vite` | high | no | no, transitive test tooling | via semver-major Vitest upgrade | Affects dev/test stack. |
-| `@vitest/mocker` | moderate | no | no, transitive test tooling | via semver-major Vitest upgrade | Affects dev/test stack. |
-| `vite-node` | moderate | no | no, transitive test tooling | via semver-major Vitest upgrade | Affects dev/test stack. |
-| `esbuild` | moderate | no | no, transitive test tooling | via semver-major Vitest upgrade | Development server advisory. |
-| `xlsx` | high | yes | yes, local import/inspect CLI | no safe npm fix reported | Used only for local XLS import tools, not public API request handling. Needs a separate replacement/mitigation task before production importer use. |
-
-## Decision
-
-`npm audit fix` and `npm audit fix --force` were not executed. The critical issue is in dev/test tooling, not runtime API. The direct `xlsx` issue is high severity and affects local import tooling; production deploy of backend is prohibited in this stage, and importer is not exposed via API.
-
-Before any production backend/import deployment, create a dependency remediation task to replace `xlsx` or sandbox the import pipeline and upgrade Vitest/Vite with test verification.
+- npm audit fix не выполнялся.
+- Автоматический deploy backend запрещён и не выполнялся.
+- XLS-парсер остаётся изолированным локальным инструментом.
+- Требуется отдельная задача: заменить xlsx на поддерживаемый парсер или изолировать importer в отдельный local-only package; отдельно обновить Vitest/Vite major с прогоном тестов.

@@ -1,4 +1,3 @@
-﻿import fs from "node:fs";
 import { PrismaClient, type EnrichmentDecisionValue, type EnrichmentCandidateStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
