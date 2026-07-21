@@ -1,4 +1,4 @@
-﻿imports/raw/*
+imports/raw/*
 !imports/raw/.gitkeep
 .env
 .env.*

@@ -1,4 +1,4 @@
-﻿{
+{
   "supplier": { "name": "ОРИОН", "code": "ORION" },
   "warehouse": { "name": "Основной склад ОРИОН", "code": "ORION-MAIN", "city": null },
   "sheetName": "Лист2",

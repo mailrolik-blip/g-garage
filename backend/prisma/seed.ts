@@ -1,4 +1,4 @@
-﻿import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { normalizeArticle, normalizeBrand, slugify } from "../src/lib/normalize.js";
 
 const prisma = new PrismaClient();

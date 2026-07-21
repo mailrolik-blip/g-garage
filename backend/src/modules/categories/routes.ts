@@ -1,4 +1,4 @@
-﻿import type { FastifyPluginAsync } from "fastify";
+import type { FastifyPluginAsync } from "fastify";
 import { ApiError } from "../../plugins/error-handler.js";
 import { slugParamSchema } from "../../lib/validation.js";
 

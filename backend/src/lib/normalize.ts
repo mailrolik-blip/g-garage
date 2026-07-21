@@ -1,4 +1,4 @@
-﻿import fs from "node:fs";
+import fs from "node:fs";
 import crypto from "node:crypto";
 
 export type NormalizedArticle = { article: string; normalizedArticle: string };

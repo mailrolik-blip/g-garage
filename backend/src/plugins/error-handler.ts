@@ -1,4 +1,4 @@
-﻿import fp from "fastify-plugin";
+import fp from "fastify-plugin";
 import { ZodError } from "zod";
 
 export class ApiError extends Error {

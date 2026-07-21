@@ -1,4 +1,5 @@
-﻿import { z } from "zod";
+import "dotenv/config";
+import { z } from "zod";
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
@@ -11,3 +12,4 @@ const envSchema = z.object({
 
 export const env = envSchema.parse(process.env);
 export const corsOrigins = env.CORS_ORIGINS.split(",").map((origin) => origin.trim()).filter(Boolean);
+

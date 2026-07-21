@@ -1,7 +1,7 @@
-﻿import fs from "node:fs";
+import fs from "node:fs";
 import path from "node:path";
 import XLSX from "xlsx";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { chooseBestName, normalizeArticle, normalizeBrand, normalizeName, parsePrice, parseStock, productIdentity, sha256File, slugify } from "../src/lib/normalize.js";
 
 type Mapping = {
@@ -21,7 +21,7 @@ type PreparedRow = { rowNumber: number; rawData: Record<string, unknown>; status
 
 function parseArgs(): Args {
   const args = process.argv.slice(2);
-  const get = (name: string) => args[args.indexOf(name) + 1];
+  const get = (name: string) => { const index = args.indexOf(name); return index === -1 ? undefined : args[index + 1]; };
   const file = get("--file");
   if (!file) throw new Error("--file is required");
   return { file, dryRun: args.includes("--dry-run"), force: args.includes("--force"), deactivateMissing: args.includes("--deactivate-missing"), mapping: get("--mapping") || "imports/mappings/orion.json" };
@@ -62,12 +62,37 @@ export function prepareRows(rows: { rowNumber: number; rawData: Record<string, u
     if (!price.ok) errors.push(price.error);
     if (!purchasePrice.ok) errors.push(purchasePrice.error);
     if (!stock.ok) errors.push(stock.error);
-    if (errors.length) return { rowNumber, rawData, status: "invalid", errorCode: errors[0], errorMessage: errors.join(", ") };
-    return { rowNumber, rawData, status: "valid", normalizedData: { brand, article: articleParts.article, normalizedArticle: articleParts.normalizedArticle, name, unit: normalizeName(pick(rawData, mapping.columns.unit)) || mapping.defaults.unit, stockQuantity: stock.value, purchasePrice: purchasePrice.value, retailPrice: price.value, currency: String(pick(rawData, mapping.columns.currency) || mapping.defaults.currency), category: normalizeName(pick(rawData, mapping.columns.category)), minimumOrderQuantity: Number(pick(rawData, mapping.columns.minimumOrderQuantity) || mapping.defaults.minimumOrderQuantity), deliveryDaysMin: mapping.deliveryRules.defaultDaysMin, deliveryDaysMax: mapping.deliveryRules.defaultDaysMax } };
+    if (errors.length || !stock.ok || !purchasePrice.ok || !price.ok) {
+      return { rowNumber, rawData, status: "invalid", errorCode: errors[0], errorMessage: errors.join(", ") };
+    }
+    return {
+      rowNumber,
+      rawData,
+      status: "valid",
+      normalizedData: {
+        brand,
+        article: articleParts.article,
+        normalizedArticle: articleParts.normalizedArticle,
+        name,
+        unit: normalizeName(pick(rawData, mapping.columns.unit)) || mapping.defaults.unit,
+        stockQuantity: stock.value,
+        purchasePrice: purchasePrice.value,
+        retailPrice: price.value,
+        currency: String(pick(rawData, mapping.columns.currency) || mapping.defaults.currency),
+        category: normalizeName(pick(rawData, mapping.columns.category)),
+        minimumOrderQuantity: Number(pick(rawData, mapping.columns.minimumOrderQuantity) || mapping.defaults.minimumOrderQuantity),
+        deliveryDaysMin: mapping.deliveryRules.defaultDaysMin,
+        deliveryDaysMax: mapping.deliveryRules.defaultDaysMax,
+      },
+    };
   });
 }
 
-function reportPath(sourceFile: string, dryRun: boolean) { fs.mkdirSync("tmp", { recursive: true }); return path.join("tmp", `${dryRun ? "dry-run" : "import"}-${path.basename(sourceFile)}.json`.replace(/[^a-zа-яё0-9_.-]+/giu, "-")); }
+function reportPath(sourceFile: string, dryRun: boolean) {
+  fs.mkdirSync("tmp", { recursive: true });
+  const safeName = path.basename(sourceFile).replace(/[^a-z0-9_.-]+/gi, "-");
+  return path.join("tmp", `${dryRun ? "dry-run" : "import"}-${safeName}.json`);
+}
 
 async function summarizeExisting(prisma: PrismaClient, prepared: PreparedRow[], mapping: Mapping, sourceHash: string, force: boolean) {
   const supplier = await prisma.supplier.findUnique({ where: { code: mapping.supplier.code } });
@@ -113,18 +138,18 @@ async function run() {
       const chunk = prepared.slice(chunkStart, chunkStart + 200);
       await prisma.$transaction(async (tx) => {
         for (const row of chunk) {
-          if (row.status === "invalid") { await tx.priceImportRow.create({ data: { importId: importRecord.id, rowNumber: row.rowNumber, rawData: row.rawData, status: "invalid", errorCode: row.errorCode, errorMessage: row.errorMessage } }); continue; }
+          if (row.status === "invalid") { await tx.priceImportRow.create({ data: { importId: importRecord.id, rowNumber: row.rowNumber, rawData: row.rawData as Prisma.InputJsonValue, status: "invalid", errorCode: row.errorCode, errorMessage: row.errorMessage } }); continue; }
           const n = row.normalizedData!;
           const brandNorm = normalizeBrand(n.brand);
           const brand = await tx.brand.upsert({ where: { normalizedName: brandNorm.normalizedName }, update: { name: brandNorm.name, slug: slugify(brandNorm.name) }, create: { name: brandNorm.name, normalizedName: brandNorm.normalizedName, slug: slugify(brandNorm.name) } });
           const existingProduct = await tx.product.findUnique({ where: { brandId_normalizedArticle: { brandId: brand.id, normalizedArticle: n.normalizedArticle } } });
           const bestName = existingProduct ? chooseBestName([existingProduct.name, n.name]).name : n.name;
           const product = await tx.product.upsert({ where: { brandId_normalizedArticle: { brandId: brand.id, normalizedArticle: n.normalizedArticle } }, update: { name: bestName, unit: n.unit }, create: { sku: `${brandNorm.normalizedName}-${n.normalizedArticle}`.slice(0, 80), article: n.article, normalizedArticle: n.normalizedArticle, name: n.name, slug: slugify(`${brandNorm.name}-${n.article}-${n.name}`), brandId: brand.id, unit: n.unit } });
-          existingProduct ? updatedProducts++ : createdProducts++;
+          if (existingProduct) updatedProducts++; else createdProducts++;
           const existingOffer = await tx.supplierOffer.findUnique({ where: { supplierId_warehouseId_supplierArticle: { supplierId: supplier.id, warehouseId: warehouse.id, supplierArticle: n.article } } });
           const offer = await tx.supplierOffer.upsert({ where: { supplierId_warehouseId_supplierArticle: { supplierId: supplier.id, warehouseId: warehouse.id, supplierArticle: n.article } }, update: { productId: product.id, purchasePrice: n.purchasePrice, retailPrice: n.retailPrice, currency: n.currency, stockQuantity: n.stockQuantity, minimumOrderQuantity: n.minimumOrderQuantity, deliveryDaysMin: n.deliveryDaysMin, deliveryDaysMax: n.deliveryDaysMax, sourceUpdatedAt: new Date(), isActive: true }, create: { productId: product.id, supplierId: supplier.id, warehouseId: warehouse.id, supplierArticle: n.article, purchasePrice: n.purchasePrice, retailPrice: n.retailPrice, currency: n.currency, stockQuantity: n.stockQuantity, minimumOrderQuantity: n.minimumOrderQuantity, deliveryDaysMin: n.deliveryDaysMin, deliveryDaysMax: n.deliveryDaysMax, sourceUpdatedAt: new Date() } });
-          existingOffer ? updatedOffers++ : createdOffers++;
-          await tx.priceImportRow.create({ data: { importId: importRecord.id, rowNumber: row.rowNumber, rawData: row.rawData, normalizedData: n as unknown as object, status: "valid", productId: product.id, offerId: offer.id } });
+          if (existingOffer) updatedOffers++; else createdOffers++;
+          await tx.priceImportRow.create({ data: { importId: importRecord.id, rowNumber: row.rowNumber, rawData: row.rawData as Prisma.InputJsonValue, normalizedData: n as unknown as Prisma.InputJsonValue, status: "valid", productId: product.id, offerId: offer.id } });
         }
       });
     }
@@ -141,3 +166,8 @@ async function run() {
 }
 
 if (process.argv[1]?.endsWith("import-orion-price.ts")) run().catch((error) => { console.error(error); process.exit(1); });
+
+
+
+
+

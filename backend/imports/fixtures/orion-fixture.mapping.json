@@ -1,0 +1,26 @@
+{
+  "supplier": { "name": "Fixture Supplier", "code": "FIXTURE" },
+  "warehouse": { "name": "Fixture Warehouse", "code": "FIX-WH", "city": "Test" },
+  "sheetName": null,
+  "headerRow": 1,
+  "columns": {
+    "brand": "Brand",
+    "article": "Article",
+    "name": "Name",
+    "manufacturer": null,
+    "category": null,
+    "unit": "Unit",
+    "stock": "Stock",
+    "warehouse": null,
+    "delivery": null,
+    "purchasePrice": "PurchasePrice",
+    "retailPrice": "RetailPrice",
+    "minimumOrderQuantity": null,
+    "currency": null
+  },
+  "defaults": { "currency": "RUB", "unit": "pcs", "minimumOrderQuantity": 1 },
+  "priceRules": { "decimalSeparator": "auto", "zeroPrice": "invalid" },
+  "stockRules": { "textStock": "invalid", "negativeStock": "invalid" },
+  "deliveryRules": { "defaultDaysMin": 1, "defaultDaysMax": 3 },
+  "skipRows": []
+}

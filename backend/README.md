@@ -1,4 +1,4 @@
-﻿# G-Garage Catalog Backend
+# G-Garage Catalog Backend
 
 Independent local backend for the G-Garage catalog core. It is not deployed to production and the static storefront is not connected to it in this stage.
 
