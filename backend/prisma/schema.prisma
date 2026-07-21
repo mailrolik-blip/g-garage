@@ -58,6 +58,9 @@ model Product {
   updatedAt         DateTime         @updatedAt
   offers            SupplierOffer[]
   importRows        PriceImportRow[]
+  supplierItems     SupplierCatalogItem[]
+  supplierMappings  SupplierProductMapping[]
+  matchCandidates   ProductMatchCandidate[]
   images            ProductImage[]
 
   @@unique([brandId, normalizedArticle])
@@ -79,6 +82,8 @@ model Supplier {
   warehouses Warehouse[]
   offers    SupplierOffer[]
   imports   PriceImport[]
+  mappings  SupplierProductMapping[]
+  catalogItems SupplierCatalogItem[]
 }
 
 model Warehouse {
@@ -91,6 +96,7 @@ model Warehouse {
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
   offers     SupplierOffer[]
+  catalogItems SupplierCatalogItem[]
 
   @@unique([supplierId, code])
   @@index([supplierId])
@@ -114,18 +120,24 @@ model SupplierOffer {
   deliveryDaysMax      Int?
   availableAt          DateTime?
   sourceUpdatedAt      DateTime?
+  supplierCatalogItemId String?
+  supplierCatalogItem   SupplierCatalogItem? @relation(fields: [supplierCatalogItemId], references: [id])
+  matchedAt            DateTime?
+  matchingMethod       MatchingMethod?
   isActive             Boolean          @default(true)
   createdAt            DateTime         @default(now())
   updatedAt            DateTime         @updatedAt
   importRows           PriceImportRow[]
 
   @@unique([supplierId, warehouseId, supplierArticle])
+  @@unique([productId, supplierId, warehouseId, supplierCatalogItemId])
   @@index([productId])
   @@index([supplierId])
   @@index([warehouseId])
   @@index([retailPrice])
   @@index([stockQuantity])
   @@index([isActive])
+  @@index([supplierCatalogItemId])
 }
 
 model PriceImport {
@@ -147,6 +159,8 @@ model PriceImport {
   errorMessage    String?
   createdAt       DateTime         @default(now())
   rows            PriceImportRow[]
+  catalogItems    SupplierCatalogItem[]
+  reviewIssues    ImportReviewIssue[]
 
   @@index([supplierId])
   @@index([sourceHash, status])
@@ -186,3 +200,139 @@ model ProductImage {
 
   @@index([productId, sortOrder])
 }
+enum MatchingStatus {
+  UNMATCHED
+  AUTO_MATCHED
+  MANUAL_MATCHED
+  NEEDS_REVIEW
+  REJECTED
+}
+
+enum MatchingMethod {
+  EXACT_BRAND_ARTICLE
+  EXACT_SOURCE_MAPPING
+  ARTICLE_NAME
+  MANUAL
+  NONE
+}
+
+enum CandidateStatus {
+  SUGGESTED
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+enum Severity {
+  INFO
+  WARNING
+  ERROR
+}
+
+model SupplierCatalogItem {
+  id                      String                  @id @default(cuid())
+  supplierId              String
+  supplier                Supplier                @relation(fields: [supplierId], references: [id])
+  warehouseId             String?
+  warehouse               Warehouse?              @relation(fields: [warehouseId], references: [id])
+  sourceKey               String
+  sourceArticle           String?
+  normalizedSourceArticle String?
+  sourceName              String?
+  normalizedSourceName    String?
+  sourceBrand             String?
+  sourceCategory          String?
+  sourceUnit              String?
+  sourceStockRaw          String?
+  sourcePriceRaw          String?
+  purchasePrice           Decimal?                @db.Decimal(14, 2)
+  retailPrice             Decimal?                @db.Decimal(14, 2)
+  currency                String                  @default("RUB")
+  stockQuantity           Int?
+  deliveryDaysMin         Int?
+  deliveryDaysMax         Int?
+  minimumOrderQuantity    Int                     @default(1)
+  rawData                 Json
+  sourceRowNumber         Int
+  sourceUpdatedAt         DateTime?
+  lastImportId            String?
+  lastImport              PriceImport?            @relation(fields: [lastImportId], references: [id])
+  matchingStatus          MatchingStatus          @default(UNMATCHED)
+  matchedProductId        String?
+  matchedProduct          Product?                @relation(fields: [matchedProductId], references: [id])
+  matchingConfidence      Decimal?                @db.Decimal(5, 2)
+  matchingMethod          MatchingMethod          @default(NONE)
+  isActive                Boolean                 @default(true)
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime                @updatedAt
+  offers                  SupplierOffer[]
+  candidates              ProductMatchCandidate[]
+  reviewIssues            ImportReviewIssue[]
+
+  @@unique([supplierId, warehouseId, sourceKey])
+  @@index([supplierId, matchingStatus])
+  @@index([warehouseId])
+  @@index([normalizedSourceArticle])
+  @@index([matchedProductId])
+  @@index([lastImportId])
+  @@index([isActive])
+}
+
+model SupplierProductMapping {
+  id                      String   @id @default(cuid())
+  supplierId              String
+  supplier                Supplier @relation(fields: [supplierId], references: [id])
+  sourceArticle           String
+  normalizedSourceArticle String
+  sourceName              String?
+  productId               String
+  product                 Product  @relation(fields: [productId], references: [id])
+  confidence              Decimal  @db.Decimal(5, 2)
+  createdBy               String?
+  note                    String?
+  isActive                Boolean  @default(true)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@unique([supplierId, normalizedSourceArticle, productId])
+  @@index([supplierId, normalizedSourceArticle, isActive])
+  @@index([productId])
+}
+
+model ProductMatchCandidate {
+  id                    String              @id @default(cuid())
+  supplierCatalogItemId String
+  supplierCatalogItem   SupplierCatalogItem @relation(fields: [supplierCatalogItemId], references: [id], onDelete: Cascade)
+  productId             String
+  product               Product             @relation(fields: [productId], references: [id])
+  score                 Decimal             @db.Decimal(5, 2)
+  reasons               Json
+  status                CandidateStatus     @default(SUGGESTED)
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  @@unique([supplierCatalogItemId, productId])
+  @@index([supplierCatalogItemId, status])
+  @@index([productId])
+}
+
+model ImportReviewIssue {
+  id                    String               @id @default(cuid())
+  importId              String
+  import                PriceImport          @relation(fields: [importId], references: [id], onDelete: Cascade)
+  supplierCatalogItemId String?
+  supplierCatalogItem   SupplierCatalogItem? @relation(fields: [supplierCatalogItemId], references: [id], onDelete: SetNull)
+  code                  String
+  severity              Severity
+  message               String
+  details               Json?
+  resolvedAt            DateTime?
+  createdAt             DateTime             @default(now())
+
+  @@index([importId])
+  @@index([supplierCatalogItemId])
+  @@index([code, severity])
+}
+
+
+
