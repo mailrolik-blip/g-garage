@@ -61,6 +61,7 @@ model Product {
   supplierItems     SupplierCatalogItem[]
   supplierMappings  SupplierProductMapping[]
   matchCandidates   ProductMatchCandidate[]
+  enrichmentDecisions EnrichmentDecision[]
   images            ProductImage[]
 
   @@unique([brandId, normalizedArticle])
@@ -84,6 +85,7 @@ model Supplier {
   imports   PriceImport[]
   mappings  SupplierProductMapping[]
   catalogItems SupplierCatalogItem[]
+  enrichmentJobs EnrichmentJob[]
 }
 
 model Warehouse {
@@ -268,6 +270,7 @@ model SupplierCatalogItem {
   offers                  SupplierOffer[]
   candidates              ProductMatchCandidate[]
   reviewIssues            ImportReviewIssue[]
+  enrichmentCandidates    EnrichmentCandidate[]
 
   @@unique([supplierId, warehouseId, sourceKey])
   @@index([supplierId, matchingStatus])
@@ -333,6 +336,131 @@ model ImportReviewIssue {
   @@index([supplierCatalogItemId])
   @@index([code, severity])
 }
+enum EnrichmentJobStatus {
+  NEW
+  RESEARCHING
+  STOPPED
+  COMPLETED
+  FAILED
+}
 
+enum EnrichmentCandidateStatus {
+  NEW
+  RESEARCHING
+  CONFIRMED
+  NEEDS_REVIEW
+  REJECTED
+  UNRESOLVED
+}
 
+enum SourceType {
+  MANUFACTURER
+  OFFICIAL_DISTRIBUTOR
+  PARTS_CATALOG
+  LARGE_RETAILER
+  MARKETPLACE
+  OTHER
+}
 
+enum EvidenceType {
+  EXACT_ARTICLE
+  BRAND_ARTICLE
+  PRODUCT_NAME
+  OEM_REFERENCE
+  GTIN
+  CATEGORY
+  CROSS_REFERENCE
+}
+
+enum EnrichmentDecisionValue {
+  ACCEPT
+  REVIEW
+  REJECT
+  UNRESOLVED
+}
+
+model EnrichmentJob {
+  id              String              @id @default(cuid())
+  supplierId      String
+  supplier        Supplier            @relation(fields: [supplierId], references: [id])
+  name            String
+  status          EnrichmentJobStatus @default(NEW)
+  totalItems      Int                 @default(0)
+  researchedItems Int                 @default(0)
+  confirmedItems  Int                 @default(0)
+  reviewItems     Int                 @default(0)
+  unresolvedItems Int                 @default(0)
+  startedAt       DateTime?
+  finishedAt      DateTime?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  candidates      EnrichmentCandidate[]
+
+  @@index([supplierId, status])
+}
+
+model EnrichmentCandidate {
+  id                    String                    @id @default(cuid())
+  jobId                 String
+  job                   EnrichmentJob             @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  supplierCatalogItemId String
+  supplierCatalogItem   SupplierCatalogItem       @relation(fields: [supplierCatalogItemId], references: [id])
+  proposedBrand         String?
+  proposedArticle       String?
+  proposedName          String?
+  proposedCategory      String?
+  proposedOemNumbers    Json?
+  proposedGtin          String?
+  proposedUnit          String?
+  confidence            Decimal?                  @db.Decimal(5, 2)
+  status                EnrichmentCandidateStatus @default(NEW)
+  conflictReason        String?
+  createdAt             DateTime                  @default(now())
+  updatedAt             DateTime                  @updatedAt
+  evidence              EnrichmentEvidence[]
+  decisions             EnrichmentDecision[]
+
+  @@unique([jobId, supplierCatalogItemId])
+  @@index([jobId, status])
+  @@index([supplierCatalogItemId])
+}
+
+model EnrichmentEvidence {
+  id                  String              @id @default(cuid())
+  candidateId         String
+  candidate           EnrichmentCandidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  sourceType          SourceType
+  sourceUrl           String
+  sourceDomain        String
+  sourceTitle         String?
+  accessedAt          DateTime
+  evidenceType        EvidenceType
+  extractedBrand      String?
+  extractedArticle    String?
+  extractedName       String?
+  extractedCategory   String?
+  extractedOemNumbers Json?
+  extractedGtin       String?
+  notes               String?
+  reliabilityScore    Int
+  createdAt           DateTime            @default(now())
+
+  @@unique([candidateId, sourceUrl, evidenceType])
+  @@index([candidateId])
+  @@index([sourceDomain])
+}
+
+model EnrichmentDecision {
+  id          String                  @id @default(cuid())
+  candidateId String
+  candidate   EnrichmentCandidate     @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  decision    EnrichmentDecisionValue
+  decidedBy   String?
+  note        String?
+  productId   String?
+  product     Product?                @relation(fields: [productId], references: [id])
+  createdAt   DateTime                @default(now())
+
+  @@index([candidateId])
+  @@index([productId])
+}
