@@ -46,10 +46,10 @@
 .option-grid button { min-height: 54px; min-width: 0; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; font-weight: 700; overflow-wrap: anywhere; }
 .option-grid button.active { border-color: var(--red); color: var(--red); background: #fff5f6; }
 .cart-layout, .checkout-layout { display: grid; grid-template-columns: minmax(0,1fr) 360px; gap: 18px; align-items: start; }
-.cart-item { display: grid; grid-template-columns: 128px minmax(0,1fr) 150px; gap: 14px; padding: 14px; margin-bottom: 10px; }
+.cart-item { display: grid; grid-template-columns: 128px minmax(0,1fr) 180px; gap: 16px; padding: 16px; margin-bottom: 10px; align-items: start; border-left: 3px solid transparent; }
 .cart-item img { width: 128px; height: 128px; object-fit: contain; background: var(--soft); border-radius: var(--radius); }
 .summary-line { display: flex; justify-content: space-between; gap: 16px; margin: 10px 0; }
-.summary-line.total { border-top: 1px solid var(--line); padding-top: 12px; font-size: 22px; font-weight: 900; }
+.summary-line.total { border-top: 1px solid var(--line); padding-top: 12px; font-size: 22px; font-weight: 900; } .cart-item .chips { margin: 8px 0; } .cart-item aside { display: grid; justify-items: end; gap: 12px; } .cart-item .price { margin: 0; } .service-layout .panel:first-child { min-height: 360px; }
 .account-layout { display: grid; grid-template-columns: 240px minmax(0,1fr); gap: 18px; }
 .account-sidebar { display: grid; gap: 6px; align-content: start; }
 .account-sidebar a { min-height: 42px; border-radius: var(--radius); display: flex; align-items: center; padding: 0 12px; font-weight: 700; color: var(--muted); }
@@ -61,3 +61,4 @@
 @media (max-width: 1280px) { .catalog-grid, .product-grid { grid-template-columns: repeat(3,1fr); } .hero h1 { font-size: 46px; } .mainbar { gap: 8px; } }
 @media (max-width: 900px) { .hero, .form-grid, .vehicle-flow, .cart-layout, .checkout-layout, .account-layout, .service-layout, .product-layout, .sidebar-layout { grid-template-columns: 1fr; } .hero-main { padding: 24px; background-size: 105% auto; background-position: right bottom; } .hero h1 { font-size: 34px; } .mode-grid, .feature-grid, .category-grid, .brand-grid, .product-grid, .catalog-grid, .dashboard-grid, .timeline, .option-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } .cart-item { grid-template-columns: 96px 1fr; } .cart-item > aside { grid-column: 1 / -1; } .sticky { position: static; } }
 @media (max-width: 640px) { .mode-grid, .feature-grid, .category-grid, .brand-grid, .product-grid, .catalog-grid, .timeline, .option-grid, .spec-grid { grid-template-columns: 1fr; } }
+
