@@ -1,4 +1,7 @@
-﻿export type NormalizedArticle = { article: string; normalizedArticle: string };
+﻿import fs from "node:fs";
+import crypto from "node:crypto";
+
+export type NormalizedArticle = { article: string; normalizedArticle: string };
 export type NormalizedBrand = { name: string; normalizedName: string };
 
 export function normalizeArticle(value: unknown): NormalizedArticle {
@@ -16,9 +19,16 @@ export function normalizeName(value: unknown): string {
   return String(value ?? "").trim().replace(/\s+/g, " ");
 }
 
+function normalizePriceText(value: unknown): string {
+  let text = String(value ?? "").trim().replace(/\s+/g, "");
+  if (text.includes(",") && text.includes(".")) text = text.replace(/,/g, "");
+  else if (text.includes(",")) text = text.replace(",", ".");
+  return text;
+}
+
 export function parsePrice(value: unknown): { ok: true; value: string } | { ok: false; error: string } {
   if (value === null || value === undefined || value === "") return { ok: false, error: "PRICE_REQUIRED" };
-  const normalized = String(value).trim().replace(/\s+/g, "").replace(",", ".");
+  const normalized = normalizePriceText(value);
   if (!/^[-+]?\d+(\.\d{1,2})?$/.test(normalized)) return { ok: false, error: "PRICE_INVALID" };
   const numeric = Number(normalized);
   if (numeric < 0) return { ok: false, error: "PRICE_NEGATIVE" };
@@ -43,6 +53,10 @@ export function chooseBestName(names: string[]): { name: string; conflict: boole
   const cleaned = [...new Set(names.map(normalizeName).filter(Boolean))];
   cleaned.sort((a, b) => b.length - a.length);
   return { name: cleaned[0] ?? "", conflict: cleaned.length > 1 };
+}
+
+export function sha256File(file: string): string {
+  return crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 }
 
 export function slugify(value: string): string {
