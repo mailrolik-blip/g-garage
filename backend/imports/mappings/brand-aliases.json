@@ -1,0 +1,10 @@
+{
+  "BOSCH": ["BOSCH", "БОШ"],
+  "BREMBO": ["BREMBO"],
+  "MANN": ["MANN", "MANN FILTER", "MANN-FILTER"],
+  "NGK": ["NGK"],
+  "SACHS": ["SACHS"],
+  "DENSO": ["DENSO"],
+  "TRW": ["TRW"],
+  "SHELL": ["SHELL"]
+}

@@ -5,20 +5,60 @@ import { idParamSchema, productListQuerySchema, slugParamSchema } from "../../li
 import { ApiError } from "../../plugins/error-handler.js";
 
 function productInclude() {
-  return { brand: true, category: true, images: { orderBy: { sortOrder: "asc" as const } }, offers: { where: { isActive: true }, include: { supplier: true, warehouse: true }, orderBy: [{ retailPrice: "asc" as const }, { deliveryDaysMin: "asc" as const }] } };
+  return {
+    brand: true,
+    category: true,
+    images: { orderBy: { sortOrder: "asc" as const } },
+    offers: {
+      where: { isActive: true },
+      select: {
+        id: true,
+        productId: true,
+        warehouseId: true,
+        supplierArticle: true,
+        retailPrice: true,
+        currency: true,
+        stockQuantity: true,
+        minimumOrderQuantity: true,
+        deliveryDaysMin: true,
+        deliveryDaysMax: true,
+        availableAt: true,
+        sourceUpdatedAt: true,
+        matchedAt: true,
+        updatedAt: true,
+        warehouse: { select: { city: true } },
+      },
+      orderBy: [{ retailPrice: "asc" as const }, { deliveryDaysMin: "asc" as const }],
+    },
+  };
 }
 
-function decorate(product: any) {
+type ProductWithOffers = Prisma.ProductGetPayload<{ include: ReturnType<typeof productInclude> }>;
+
+function decorate(product: ProductWithOffers) {
   const offers = product.offers ?? [];
-  const prices = offers.map((offer: any) => Number(offer.retailPrice));
-  const delivery = offers.map((offer: any) => offer.deliveryDaysMin).filter((v: unknown) => typeof v === "number");
-  return { ...product, minPrice: prices.length ? Math.min(...prices) : null, maxPrice: prices.length ? Math.max(...prices) : null, totalStock: offers.reduce((sum: number, offer: any) => sum + offer.stockQuantity, 0), bestDeliveryDays: delivery.length ? Math.min(...delivery) : null };
+  const prices = offers.map((offer) => Number(offer.retailPrice));
+  const delivery = offers.map((offer) => offer.deliveryDaysMin).filter((value): value is number => typeof value === "number");
+  const supplierCount = new Set(offers.map((offer) => offer.warehouseId ?? offer.id)).size;
+  const updatedAtValues = offers.flatMap((offer) => [offer.sourceUpdatedAt, offer.updatedAt]).filter((value): value is Date => value instanceof Date);
+  const latestUpdate = updatedAtValues.length ? new Date(Math.max(...updatedAtValues.map((value) => value.getTime()))) : null;
+  return {
+    ...product,
+    minPrice: prices.length ? Math.min(...prices) : null,
+    maxPrice: prices.length ? Math.max(...prices) : null,
+    totalStock: offers.reduce((sum, offer) => sum + offer.stockQuantity, 0),
+    bestDeliveryDays: delivery.length ? Math.min(...delivery) : null,
+    offerCount: offers.length,
+    supplierCount,
+    priceUpdatedAt: latestUpdate,
+    availabilityUpdatedAt: latestUpdate,
+  };
 }
 
 export const productRoutes: FastifyPluginAsync = async (app) => {
   app.get("/api/v1/products", async (request) => {
     const query = productListQuerySchema.parse(request.query);
-    const where: Prisma.ProductWhereInput = { isActive: true };
+    const where: Prisma.ProductWhereInput = { isActive: true, offers: { some: { isActive: true } } };
     const and: Prisma.ProductWhereInput[] = [];
     if (query.article) and.push({ normalizedArticle: { contains: normalizeArticle(query.article).normalizedArticle, mode: "insensitive" } });
     if (query.brand) and.push({ brand: { OR: [{ slug: query.brand }, { normalizedName: query.brand.toUpperCase() }, { name: { contains: query.brand, mode: "insensitive" } }] } });
@@ -29,14 +69,17 @@ export const productRoutes: FastifyPluginAsync = async (app) => {
     if (query.search) {
       const norm = normalizeArticle(query.search).normalizedArticle;
       const parts = query.search.trim().split(/\s+/);
-      and.push({ OR: [
+      const searchOr: Prisma.ProductWhereInput[] = [
         { normalizedArticle: norm },
         { normalizedArticle: { startsWith: norm, mode: "insensitive" } },
         { article: { contains: query.search, mode: "insensitive" } },
         { name: { contains: query.search, mode: "insensitive" } },
         { brand: { name: { contains: parts[0], mode: "insensitive" } } },
-        parts.length > 1 ? { AND: [{ brand: { name: { contains: parts[0], mode: "insensitive" } } }, { OR: [{ article: { contains: parts.slice(1).join(" "), mode: "insensitive" } }, { name: { contains: parts.slice(1).join(" "), mode: "insensitive" } }] }] } : {},
-      ] });
+      ];
+      if (parts.length > 1) {
+        searchOr.push({ AND: [{ brand: { name: { contains: parts[0], mode: "insensitive" } } }, { OR: [{ article: { contains: parts.slice(1).join(" "), mode: "insensitive" } }, { name: { contains: parts.slice(1).join(" "), mode: "insensitive" } }] }] });
+      }
+      and.push({ OR: searchOr });
     }
     if (and.length) where.AND = and;
     const orderBy: Prisma.ProductOrderByWithRelationInput[] = query.sort === "name_asc" ? [{ name: "asc" }] : query.sort === "newest" ? [{ createdAt: "desc" }] : [{ createdAt: "desc" }];
@@ -51,16 +94,18 @@ export const productRoutes: FastifyPluginAsync = async (app) => {
     }
     return { data: products.map(decorate), pagination: { page: query.page, limit: query.limit, total, pages: Math.ceil(total / query.limit) }, filters: { search: query.search ?? null, brand: query.brand ?? null, category: query.category ?? null, inStock: query.inStock ?? null, qualityLevel: query.qualityLevel ?? null, sort: query.sort } };
   });
+
   app.get("/api/v1/products/:id", async (request) => {
     const { id } = idParamSchema.parse(request.params);
-    const product = await app.prisma.product.findUnique({ where: { id }, include: productInclude() });
-    if (!product || !product.isActive) throw new ApiError("PRODUCT_NOT_FOUND", "Product not found", 404);
+    const product = await app.prisma.product.findFirst({ where: { id, isActive: true, offers: { some: { isActive: true } } }, include: productInclude() });
+    if (!product) throw new ApiError("PRODUCT_NOT_FOUND", "Product not found", 404);
     return decorate(product);
   });
+
   app.get("/api/v1/products/by-slug/:slug", async (request) => {
     const { slug } = slugParamSchema.parse(request.params);
-    const product = await app.prisma.product.findUnique({ where: { slug }, include: productInclude() });
-    if (!product || !product.isActive) throw new ApiError("PRODUCT_NOT_FOUND", "Product not found", 404);
+    const product = await app.prisma.product.findFirst({ where: { slug, isActive: true, offers: { some: { isActive: true } } }, include: productInclude() });
+    if (!product) throw new ApiError("PRODUCT_NOT_FOUND", "Product not found", 404);
     return decorate(product);
   });
 };
